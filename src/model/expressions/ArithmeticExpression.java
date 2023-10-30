@@ -1,6 +1,6 @@
 package model.expressions;
 
-import exceptions.ModelException;
+import model.exceptions.ModelException;
 import model.adts.IMyDictionary;
 import model.types.IntType;
 import model.values.IValue;
@@ -23,14 +23,14 @@ public class ArithmeticExpression implements IExpression {
         IValue firstIValue, secondIValue;
         firstIValue = firstExpression.evaluate(table);
         secondIValue = secondExpression.evaluate(table);
+        //Check type compatibility
         if(!isCompatible(firstIValue, secondIValue))
             throw new ModelException("operands are incompatible");
-        IntValue firstInteger = (IntValue) firstIValue;
-        IntValue secondInteger = (IntValue) secondIValue;
-        int n1, n2;
-        n1 = firstInteger.getValue();
-        n2 = secondInteger.getValue();
-        return computeOperation(operator, n1, n2);
+
+        int firstInteger = ((IntValue) firstIValue).getValue();
+        int secondInteger = ((IntValue) secondIValue).getValue();
+
+        return computeOperation(operator, firstInteger, secondInteger);
     }
 
     private boolean isCompatible(IValue first, IValue second){

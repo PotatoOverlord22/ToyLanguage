@@ -1,6 +1,6 @@
 package model.expressions;
 
-import exceptions.ModelException;
+import model.exceptions.ModelException;
 import model.adts.IMyDictionary;
 import model.types.BoolType;
 import model.values.BoolValue;
@@ -27,14 +27,11 @@ public class LogicExpression implements IExpression {
         if (!isCompatible(firstIValue, secondIValue))
             throw new ModelException("operands are incompatible");
 
-        BoolValue firstBoolean = (BoolValue) firstIValue;
-        BoolValue secondBoolean = (BoolValue) secondIValue;
-        boolean first, second;
-        first = firstBoolean.getValue();
-        second = secondBoolean.getValue();
+        boolean firstBoolean = ((BoolValue) firstIValue).getValue();
+        boolean secondBoolean = ((BoolValue) secondIValue).getValue();
 
         // Call function that checks the operator and operands and computes the result using Java types
-        return computeOperation(operator, first, second);
+        return computeOperation(operator, firstBoolean, secondBoolean);
 
     }
 
