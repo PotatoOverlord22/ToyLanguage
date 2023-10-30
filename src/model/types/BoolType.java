@@ -1,4 +1,7 @@
-package model;
+package model.types;
+
+import model.values.BoolValue;
+import model.values.IValue;
 
 public class BoolType implements IType{
     @Override

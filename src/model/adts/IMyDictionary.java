@@ -1,4 +1,4 @@
-package model;
+package model.adts;
 
 public interface IMyDictionary<T, U> {
     void put(T key, U value);

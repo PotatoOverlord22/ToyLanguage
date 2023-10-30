@@ -1,4 +1,4 @@
-package model;
+package model.adts;
 
 public interface IMyList<T> {
     void add(T newItem);

@@ -1,4 +1,6 @@
-package model;
+package model.adts;
+
+import model.adts.IMyList;
 
 import java.util.ArrayList;
 

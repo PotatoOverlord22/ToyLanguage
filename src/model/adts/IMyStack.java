@@ -1,4 +1,4 @@
-package model;
+package model.adts;
 
 public interface IMyStack<T> {
     T pop();

@@ -1,4 +1,7 @@
-package model;
+package model.values;
+
+import model.types.IType;
+import model.types.IntType;
 
 public class IntValue implements IValue{
     private int value;

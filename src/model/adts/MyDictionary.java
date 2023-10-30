@@ -1,4 +1,6 @@
-package model;
+package model.adts;
+
+import model.adts.IMyDictionary;
 
 import java.util.Dictionary;
 import java.util.Hashtable;

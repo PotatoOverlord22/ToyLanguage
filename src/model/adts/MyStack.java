@@ -1,4 +1,6 @@
-package model;
+package model.adts;
+
+import model.adts.IMyStack;
 
 import java.util.Stack;
 
