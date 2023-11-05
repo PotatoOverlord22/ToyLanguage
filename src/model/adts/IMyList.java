@@ -10,4 +10,6 @@ public interface IMyList<T> {
     void remove(int index);
 
     void clear();
+
+    int size();
 }

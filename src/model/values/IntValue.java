@@ -13,7 +13,19 @@ public class IntValue implements IValue{
         return new IntType();
     }
 
+    @Override
+    public IValue deepCopy() {
+        return new IntValue(value);
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
     public int getValue(){
         return value;
     }
+
+
 }

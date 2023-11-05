@@ -31,4 +31,14 @@ public class MyList<T> implements IMyList<T> {
     public void clear() {
         list.clear();
     }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public String toString() {
+        return list.toString();
+    }
 }

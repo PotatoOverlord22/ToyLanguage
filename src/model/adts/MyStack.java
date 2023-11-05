@@ -25,10 +25,15 @@ public class MyStack<T> implements IMyStack<T> {
     @Override
     public String toString() {
         String result = "";
-        for (T elem :
-                stack) {
-            result += elem.toString() + " ";
+        for (T elem:
+             stack.reversed()) {
+            result += elem.toString() + ", ";
         }
         return result;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return stack.isEmpty();
     }
 }

@@ -3,10 +3,12 @@ package model.types;
 import model.values.BoolValue;
 import model.values.IValue;
 
-public class BoolType implements IType{
+public class BoolType implements IType {
+    private static final boolean DEFAULT_VALUE = false;
+
     @Override
     public IValue getDefaultValue() {
-        return new BoolValue(false);
+        return new BoolValue(DEFAULT_VALUE);
     }
 
     @Override
@@ -15,7 +17,12 @@ public class BoolType implements IType{
     }
 
     @Override
-    public void deepCopy() {
+    public IType deepCopy() {
+        return new BoolType();
+    }
 
+    @Override
+    public String toString() {
+        return "bool";
     }
 }

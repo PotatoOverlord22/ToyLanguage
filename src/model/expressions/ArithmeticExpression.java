@@ -1,7 +1,7 @@
 package model.expressions;
 
-import model.exceptions.ModelException;
 import model.adts.IMyDictionary;
+import model.exceptions.EvaluationException;
 import model.types.IntType;
 import model.values.IValue;
 import model.values.IntValue;
@@ -19,13 +19,18 @@ public class ArithmeticExpression implements IExpression {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table) throws ModelException {
+    public IExpression deepCopy() {
+        return new ArithmeticExpression(operator, firstExpression.deepCopy(), secondExpression.deepCopy());
+    }
+
+    @Override
+    public IValue evaluate(IMyDictionary<String, IValue> table) throws EvaluationException {
         IValue firstIValue, secondIValue;
         firstIValue = firstExpression.evaluate(table);
         secondIValue = secondExpression.evaluate(table);
         //Check type compatibility
         if(!isCompatible(firstIValue, secondIValue))
-            throw new ModelException("operands are incompatible");
+            throw new EvaluationException("operands are incompatible");
 
         int firstInteger = ((IntValue) firstIValue).getValue();
         int secondInteger = ((IntValue) secondIValue).getValue();
@@ -41,15 +46,19 @@ public class ArithmeticExpression implements IExpression {
             return false;
         return true;
     }
-    private IntValue computeOperation(char operator, int first, int second) throws ModelException{
+    private IntValue computeOperation(char operator, int first, int second) throws EvaluationException{
         if (operator == '+') return new IntValue(first + second);
         else if (operator == '-') return new IntValue(first - second);
         else if (operator == '*') return new IntValue(first * second);
         else if (operator == '/') {
             if (second == 0)
-                throw new ModelException("division by zero");
+                throw new EvaluationException("division by zero");
             return new IntValue(first / second);
-        } else throw new ModelException("unknown operator");
+        } else throw new EvaluationException("unknown operator");
     }
 
+    @Override
+    public String toString() {
+        return firstExpression.toString() + " " + operator + " " + secondExpression.toString();
+    }
 }

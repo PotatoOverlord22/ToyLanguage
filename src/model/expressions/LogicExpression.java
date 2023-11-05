@@ -1,31 +1,36 @@
 package model.expressions;
 
-import model.exceptions.ModelException;
 import model.adts.IMyDictionary;
+import model.exceptions.EvaluationException;
 import model.types.BoolType;
 import model.values.BoolValue;
 import model.values.IValue;
 
 public class LogicExpression implements IExpression {
     // Expressions to evaluate
-    IExpression e1;
-    IExpression e2;
+    IExpression firstExpression;
+    IExpression secondExpression;
     char operator;
 
     public LogicExpression(char operator, IExpression first, IExpression second) {
         this.operator = operator;
-        e1 = first;
-        e2 = second;
+        firstExpression = first;
+        secondExpression = second;
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table) throws ModelException {
+    public IExpression deepCopy(){
+        return new LogicExpression(operator, firstExpression.deepCopy(), secondExpression.deepCopy());
+    }
+
+    @Override
+    public IValue evaluate(IMyDictionary<String, IValue> table) throws EvaluationException {
         IValue firstIValue, secondIValue;
-        firstIValue = e1.evaluate(table);
-        secondIValue = e2.evaluate(table);
+        firstIValue = firstExpression.evaluate(table);
+        secondIValue = secondExpression.evaluate(table);
         // Check type compatibility
         if (!isCompatible(firstIValue, secondIValue))
-            throw new ModelException("operands are incompatible");
+            throw new EvaluationException("operands are incompatible");
 
         boolean firstBoolean = ((BoolValue) firstIValue).getValue();
         boolean secondBoolean = ((BoolValue) secondIValue).getValue();
@@ -44,11 +49,16 @@ public class LogicExpression implements IExpression {
         return true;
     }
 
-    private BoolValue computeOperation(char operator, boolean first, boolean second) throws ModelException {
+    private BoolValue computeOperation(char operator, boolean first, boolean second) throws EvaluationException {
         if (operator == '&')
             return new BoolValue(first && second);
         else if (operator == '|')
             return new BoolValue(first || second);
-        throw new ModelException("unknown operator");
+        throw new EvaluationException("unknown operator");
+    }
+
+    @Override
+    public String toString() {
+        return "(" + firstExpression.toString() + " " + operator + " " + secondExpression.toString() + ")";
     }
 }

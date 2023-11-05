@@ -21,4 +21,9 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
     public void remove(T key) {
         dict.remove(key);
     }
+
+    @Override
+    public String toString() {
+        return dict.toString();
+    }
 }

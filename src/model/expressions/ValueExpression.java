@@ -1,7 +1,7 @@
 package model.expressions;
 
-import model.exceptions.ModelException;
 import model.adts.IMyDictionary;
+import model.exceptions.EvaluationException;
 import model.values.IValue;
 
 public class ValueExpression implements IExpression{
@@ -12,7 +12,17 @@ public class ValueExpression implements IExpression{
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table) throws ModelException {
+    public IExpression deepCopy() {
+        return new ValueExpression(value.deepCopy());
+    }
+
+    @Override
+    public IValue evaluate(IMyDictionary<String, IValue> table) throws EvaluationException {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
     }
 }

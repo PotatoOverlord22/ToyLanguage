@@ -5,4 +5,6 @@ public interface IMyStack<T> {
     void push(T newItem);
 
     T peek();
+
+    boolean isEmpty();
 }

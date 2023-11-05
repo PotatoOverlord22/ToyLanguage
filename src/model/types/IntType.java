@@ -4,9 +4,10 @@ import model.values.IValue;
 import model.values.IntValue;
 
 public class IntType implements IType{
+    private static final int DEFAULT_VALUE = 0;
     @Override
     public IValue getDefaultValue() {
-        return new IntValue(0);
+        return new IntValue(DEFAULT_VALUE);
     }
 
     @Override
@@ -20,7 +21,7 @@ public class IntType implements IType{
     }
 
     @Override
-    public void deepCopy() {
-
+    public IType deepCopy() {
+        return new IntType();
     }
 }
