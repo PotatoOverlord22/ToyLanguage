@@ -32,7 +32,7 @@ public class Interpreter {
         /*
                 Program 2:
             int x;
-            int y;~
+            int y;
             x = 2*3 + 3;
             y = 6-3;
             int z;
