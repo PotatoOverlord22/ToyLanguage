@@ -6,7 +6,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 public class MyDictionary<T, U> implements IMyDictionary<T, U> {
-    private Dictionary<T, U> dict = new Hashtable<>();
+    private Hashtable<T, U> dict = new Hashtable<>();
     @Override
     public U get(T key) {
         return dict.get(key);
@@ -18,8 +18,8 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
     }
 
     @Override
-    public void remove(T key) {
-        dict.remove(key);
+    public U remove(T key) {
+        return dict.remove(key);
     }
 
     @Override

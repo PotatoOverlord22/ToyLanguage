@@ -2,14 +2,20 @@ package repository;
 
 import model.ProgramState;
 import model.adts.*;
+import model.exceptions.ReadWriteException;
 import model.statements.IStatement;
 import model.values.IValue;
+
+import java.io.*;
 
 public class Repository implements IRepository {
     // A list of programs and their "natural language" meaning
     private final IMyList<IMyPair<ProgramState, String>> programs;
 
-    public Repository() {
+    private String logFilePath;
+
+    public Repository(String logFilePath) {
+        this.logFilePath = logFilePath;
         programs = new MyList<>();
     }
 
@@ -27,10 +33,11 @@ public class Repository implements IRepository {
         // Create an instance of execution stack, symbol table and output for each program
         // because each program state needs its separate instance
         IMyStack<IStatement> executionStack = new MyStack<>();
-        IMyDictionary<String, IValue> symbolTable = new MyDictionary<>();
         IMyList<IValue> output = new MyList<>();
+        IMyDictionary<String, IValue> symbolTable = new MyDictionary<>();
+        IMyDictionary<String, BufferedReader> fileTable = new MyDictionary<>();
 
-        ProgramState program = new ProgramState(executionStack, symbolTable, output, startingStatement);
+        ProgramState program = new ProgramState(executionStack, symbolTable, output, fileTable,startingStatement);
 
         programs.add(new MyPair<>(program, programInNaturalLanguage));
     }
@@ -48,5 +55,19 @@ public class Repository implements IRepository {
     @Override
     public ProgramState getProgramAt(int index) {
         return programs.get(index).first();
+    }
+
+    @Override
+    public void logProgramState(int programIndex) throws ReadWriteException {
+        ProgramState programToPrint = programs.get(programIndex).first();
+        try{
+            //
+            PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
+            logFile.println(programToPrint.toString() + '\n');
+            logFile.close();
+        }
+        catch (IOException error){
+            throw new ReadWriteException(error.getMessage());
+        }
     }
 }

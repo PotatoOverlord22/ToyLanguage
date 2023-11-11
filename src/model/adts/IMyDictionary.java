@@ -5,5 +5,5 @@ public interface IMyDictionary<T, U> {
 
     U get(T key);
 
-    void remove(T key);
+    U remove(T key);
 }
