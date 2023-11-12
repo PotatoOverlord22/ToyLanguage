@@ -10,7 +10,7 @@ import model.exceptions.ReadWriteException;
 public interface IController {
     ProgramState oneStep(ProgramState currentState) throws ExecutionException, EvaluationException, ReadWriteException;
 
-    void allSteps(ProgramState program) throws ExecutionException, EvaluationException, ReadWriteException;
+    void allSteps() throws ExecutionException, EvaluationException, ReadWriteException;
 
     public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException;
 
@@ -18,5 +18,5 @@ public interface IController {
 
     IMyList<IMyPair<ProgramState, String>> getAll();
 
-    void resetProgram(int programIndex);
+    void resetProgram();
 }

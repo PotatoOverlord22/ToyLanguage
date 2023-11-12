@@ -51,8 +51,15 @@ public class ReadNumberFromFile implements IStatement {
             IntValue lineValue;
             if (line == null)
                 lineValue = new IntValue();
-            else
-                lineValue = new IntValue(Integer.parseInt(line));
+            else{
+                // parseInt method throws NumberFormatException if the line that has been read does not respect the format of an int
+                try{
+                    lineValue = new IntValue(Integer.parseInt(line));
+                }
+                catch (NumberFormatException error){
+                    throw new ExecutionException("Invalid number format");
+                }
+            }
             // Update the variable with the new value read from the file
             state.getSymbolTable().put(varName, lineValue);
         }

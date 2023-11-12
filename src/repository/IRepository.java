@@ -17,4 +17,6 @@ public interface IRepository {
     ProgramState getProgramAt(int index);
 
     void logProgramState(int programIndex) throws ReadWriteException;
+
+    void resetProgram(int index);
 }

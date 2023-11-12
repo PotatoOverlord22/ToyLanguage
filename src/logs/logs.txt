@@ -1,0 +1,8 @@
+ProgramState:
+Execution Stack: 
+
+SymbolTable: 
+{v=2}
+Output: 
+[2]
+

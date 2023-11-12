@@ -2,6 +2,7 @@ package model.adts;
 
 import model.adts.IMyDictionary;
 
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -25,5 +26,9 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
     @Override
     public String toString() {
         return dict.toString();
+    }
+
+    public Collection<U> values(){
+        return dict.values();
     }
 }

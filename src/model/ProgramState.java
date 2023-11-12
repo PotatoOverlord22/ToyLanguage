@@ -1,8 +1,6 @@
 package model;
 
-import model.adts.IMyDictionary;
-import model.adts.IMyList;
-import model.adts.IMyStack;
+import model.adts.*;
 import model.statements.IStatement;
 import model.values.IValue;
 
@@ -27,6 +25,15 @@ public class ProgramState {
         this.fileTable = fileTable;
         originalState = startingStatement.deepCopy();
         // This is the first statement on the stack
+        executionStack.push(startingStatement);
+    }
+
+    public void resetProgram(){
+        executionStack = new MyStack<>();
+        symbolTable = new MyDictionary<>();
+        output = new MyList<>();
+        fileTable = new MyDictionary<>();
+        IStatement startingStatement = originalState.deepCopy();
         executionStack.push(startingStatement);
     }
 
@@ -68,11 +75,9 @@ public class ProgramState {
 
     @Override
     public String toString() {
-        return "ProgramState{" +
-                "\nexecutionStack= " + executionStack.toString() +
-                "\nsymbolTable= " + symbolTable.toString() +
-                "\noutput= " + output.toString() +
-                "\noriginalState= " + originalState.toString() +
-                "\n}";
+        return "ProgramState:" +
+                "\nExecution Stack: \n" + executionStack.toString() +
+                "\nSymbolTable: \n" + symbolTable.toString() +
+                "\nOutput: \n" + output.toString();
     }
 }

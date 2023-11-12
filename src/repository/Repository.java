@@ -70,4 +70,9 @@ public class Repository implements IRepository {
             throw new ReadWriteException(error.getMessage());
         }
     }
+
+    @Override
+    public void resetProgram(int index) {
+        programs.get(index).first().resetProgram();
+    }
 }

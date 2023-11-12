@@ -12,8 +12,11 @@ import repository.IRepository;
 
 public class Controller implements IController{
     private final IRepository repository;
-    public Controller (IRepository repository){
+
+    private int programIndex;
+    public Controller (IRepository repository, int programToRunIndex){
         this.repository = repository;
+        this.programIndex = programToRunIndex;
     }
     @Override
     public ProgramState oneStep(ProgramState currentState) throws ExecutionException, EvaluationException, ReadWriteException {
@@ -28,20 +31,23 @@ public class Controller implements IController{
     }
 
     @Override
-    public void allSteps(ProgramState program) throws ExecutionException, EvaluationException, ReadWriteException {
+    public void allSteps() throws ExecutionException, EvaluationException, ReadWriteException {
         /*
             Function executes the whole program and then stops, meaning this function does not exit until the execution stack is empty
          */
+        ProgramState program = repository.getProgramAt(programIndex);
+        repository.logProgramState(programIndex);
         IMyStack<IStatement> executionStack = program.getExecutionStack();
 
         while (!executionStack.isEmpty()){
             oneStep(program);
-            }
+            repository.logProgramState(programIndex);
+        }
     }
 
     public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException{
-        ProgramState programToRun = repository.getProgramAt(programIndex);
-        allSteps(programToRun);
+        this.programIndex = programIndex;
+        allSteps();
     }
 
     @Override
@@ -55,7 +61,15 @@ public class Controller implements IController{
     }
 
     @Override
-    public void resetProgram(int programIndex) {
-        
+    public void resetProgram() {
+        repository.resetProgram(programIndex);
+    }
+
+    public void setProgramIndex(int programIndex) {
+        this.programIndex = programIndex;
+    }
+
+    public int getProgramIndex() {
+        return programIndex;
     }
 }

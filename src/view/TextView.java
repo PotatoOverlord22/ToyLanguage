@@ -5,45 +5,48 @@ import model.ProgramState;
 import model.adts.IMyDictionary;
 import model.adts.IMyList;
 import model.adts.IMyPair;
+import model.adts.MyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.statements.IStatement;
+import view.commands.Command;
 
 import java.util.Scanner;
 
 public class TextView implements IView{
     private boolean stopView = false;
-
     private boolean showOnlyResult;
-    private final IController controller;
-    public TextView(IController controller){
-        this.controller = controller;
+
+    private IMyDictionary<String, Command> commands;
+
+    public TextView(){
+        commands = new MyDictionary<>();
+    }
+
+    public void addCommand(Command command){
+        commands.put(command.getKey(), command);
     }
     @Override
-    public void startView(){
-        int i;
-        while (!stopView){
-            IMyList<IMyPair<ProgramState, String>> allPrograms = controller.getAll();
-            System.out.println("\nChoose a program to run from the list or 0 to end:");
-            for (i = 1; i <= allPrograms.size(); ++i)
-                // Print the natural language meaning of the program
-                System.out.println("Program " + i + ":" + allPrograms.get(i - 1).second());
-            System.out.println();
-            System.out.println("User option: ");
-            Scanner scanner = new Scanner(System.in);
-            int userOption = scanner.nextInt();
-            if (userOption == 0)
-                stopView = true;
-            else{
-                try{
-                    controller.runAllStepsOnProgram(userOption - 1);
-                }
-                catch (ExecutionException | EvaluationException | ReadWriteException exception){
-                    System.out.println(exception.getMessage());
-                }
+    public void show(){
+        Scanner scanner = new Scanner(System.in);
+        while(!stopView){
+            printMenu();
+            System.out.print("Select which command to run: ");
+            String key = scanner.nextLine();
+            Command com = commands.get(key);
+            if (com == null){
+                System.out.println("Invalid option");
             }
+            else
+                com.execute();
+        }
+    }
 
+    private void printMenu(){
+        for (Command currentCommand : commands.values()){
+            String line = String.format("%4s : %s", currentCommand.getKey(), currentCommand.getDescription());
+            System.out.println(line);
         }
     }
 
@@ -53,5 +56,13 @@ public class TextView implements IView{
 
     public boolean getShowOnlyResult(){
         return showOnlyResult;
+    }
+
+    public void setStopView(boolean stopView) {
+        this.stopView = stopView;
+    }
+
+    public boolean getStopView(){
+        return stopView;
     }
 }

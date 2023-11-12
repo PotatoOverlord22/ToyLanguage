@@ -15,6 +15,8 @@ import repository.IRepository;
 import repository.Repository;
 import view.IView;
 import view.TextView;
+import view.commands.ExitCommand;
+import view.commands.RunProgramCommand;
 
 public class Interpreter {
     public static void main(String[] args) {
@@ -100,17 +102,33 @@ public class Interpreter {
                 new PrintStatement(new LogicExpression('&', new VarExpression("a"), new VarExpression("b")))))
         ));
 
-        IRepository repository = new Repository("");
+        IRepository repository = new Repository("src/logs/logs.txt");
         repository.addProgram(program1, "\n\tint v;\n\tv=2;\n\tPrint(v)");
         repository.addProgram(program2, "\n\tint x;\n\tint y;\n\tx = 2*3 + 3;\n\ty = 6-3;\n\tint z;\n\tz = x / y;\n\tPrint(z)");
         repository.addProgram(program3, "\n\tbool a;\n\ta=false;\n\tint v;\n\tIf a Then v=2 Else v=3;\n\tPrint(v));");
         repository.addProgram(program4, "\n\tString varf;\n\tvarf = test.in\n\topenRFile(varf);\n\tint varc;\n\treadFile(varf, varc);"
                             + "\n\tprint(varc);\n\tcloseRFile(varf);");
-                repository.addProgram(program5, "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);");
+        repository.addProgram(program5, "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);");
+        TextView view = new TextView();
 
-        IController controller = new Controller(repository);
-        IView view = new TextView(controller);
+        IController controller1 = new Controller(repository, 0);
+        view.addCommand(new RunProgramCommand("1", "\n\tint v;\n\tv=2;\n\tPrint(v)", controller1));
 
-        view.startView();
+        IController controller2 = new Controller(repository, 1);
+        view.addCommand(new RunProgramCommand("2", "\n\tint x;\n\tint y;\n\tx = 2*3 + 3;\n\ty = 6-3;\n\tint z;\n\tz = x / y;\n\tPrint(z)", controller2));
+
+        IController controller3 = new Controller(repository, 2);
+        view.addCommand(new RunProgramCommand("3", "\n\tbool a;\n\ta=false;\n\tint v;\n\tIf a Then v=2 Else v=3;\n\tPrint(v));", controller3));
+
+        IController controller4 = new Controller(repository, 3);
+        view.addCommand(new RunProgramCommand("4", "\n\tString varf;\n\tvarf = test.in\n\topenRFile(varf);\n\tint varc;\n\treadFile(varf, varc);" +
+                "\n\tprint(varc);\n\tcloseRFile(varf);", controller4));
+
+        IController controller5 = new Controller(repository, 4);
+        view.addCommand(new RunProgramCommand("5", "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);", controller5));
+
+        view.addCommand(new ExitCommand("0", "Exit"));
+
+        view.show();
     }
 }

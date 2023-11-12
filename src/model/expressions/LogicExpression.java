@@ -8,8 +8,8 @@ import model.values.IValue;
 
 public class LogicExpression implements IExpression {
     // Expressions to evaluate
-    IExpression firstExpression;
-    IExpression secondExpression;
+    private IExpression firstExpression;
+    private IExpression secondExpression;
     char operator;
 
     public LogicExpression(char operator, IExpression first, IExpression second) {
