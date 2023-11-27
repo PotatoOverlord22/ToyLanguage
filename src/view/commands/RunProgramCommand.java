@@ -14,8 +14,9 @@ public class RunProgramCommand extends Command{
 
     @Override
     public void execute() {
+        boolean showOnlyResult = false;
         try{
-            controller.allSteps();
+            controller.allSteps(showOnlyResult);
             controller.resetProgram();
         }
         catch (EvaluationException | ExecutionException | ReadWriteException exception){

@@ -10,7 +10,7 @@ import model.exceptions.ReadWriteException;
 public interface IController {
     ProgramState oneStep(ProgramState currentState) throws ExecutionException, EvaluationException, ReadWriteException;
 
-    void allSteps() throws ExecutionException, EvaluationException, ReadWriteException;
+    void allSteps(boolean showOnlyResult) throws ExecutionException, EvaluationException, ReadWriteException;
 
     public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException;
 

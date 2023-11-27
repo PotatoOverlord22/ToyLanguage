@@ -2,9 +2,7 @@ package model.adts;
 
 import model.adts.IMyDictionary;
 
-import java.util.Collection;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.*;
 
 public class MyDictionary<T, U> implements IMyDictionary<T, U> {
     private Hashtable<T, U> dict = new Hashtable<>();
@@ -25,10 +23,17 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
 
     @Override
     public String toString() {
-        return dict.toString();
+        String result = "";
+        for (T key : dict.keySet())
+            result += key.toString() + " => " + dict.get(key).toString() + '\n';
+        return result;
     }
 
     public Collection<U> values(){
         return dict.values();
+    }
+
+    public Set<T> keys(){
+        return dict.keySet();
     }
 }

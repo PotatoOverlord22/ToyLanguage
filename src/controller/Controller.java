@@ -31,23 +31,27 @@ public class Controller implements IController{
     }
 
     @Override
-    public void allSteps() throws ExecutionException, EvaluationException, ReadWriteException {
+    public void allSteps(boolean showOnlyResult) throws ExecutionException, EvaluationException, ReadWriteException {
         /*
             Function executes the whole program and then stops, meaning this function does not exit until the execution stack is empty
          */
         ProgramState program = repository.getProgramAt(programIndex);
-        repository.logProgramState(programIndex);
+        if(!showOnlyResult)
+            repository.logProgramState(programIndex);
         IMyStack<IStatement> executionStack = program.getExecutionStack();
 
         while (!executionStack.isEmpty()){
             oneStep(program);
-            repository.logProgramState(programIndex);
+            if (!showOnlyResult)
+                repository.logProgramState(programIndex);
         }
+        if (showOnlyResult)
+            repository.logProgramState(programIndex);
     }
 
     public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException{
         this.programIndex = programIndex;
-        allSteps();
+        allSteps(true);
     }
 
     @Override

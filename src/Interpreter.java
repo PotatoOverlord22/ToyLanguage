@@ -18,6 +18,8 @@ import view.TextView;
 import view.commands.ExitCommand;
 import view.commands.RunProgramCommand;
 
+import java.util.Scanner;
+
 public class Interpreter {
     public static void main(String[] args) {
         // In this part we add hard coded program entries and their meaning in a more understandable way
@@ -74,6 +76,8 @@ public class Interpreter {
             int varc;
             readFile(varf, varc);
             print(varc);
+
+            readFile("src/logs/test2.in", varc);
             closeRFile(varf);
         */
         IStatement program4 = new CompoundStatement(new VarDeclaration(new StringType(), "varf"), new CompoundStatement(
@@ -85,6 +89,18 @@ public class Interpreter {
                 ))
         ))
         );
+
+//        IStatement program4 = new CompoundStatement(new VarDeclaration(new StringType(), "varf"), new CompoundStatement(
+//                new AssignStatement("varf", new ValueExpression(new StringValue("src/logs/test.in"))), new CompoundStatement(new OpenReadFile(new VarExpression("varf")),
+//                new CompoundStatement(
+//                        new VarDeclaration(new IntType(), "varc"), new CompoundStatement(
+//                        new ReadNumberFromFile(new VarExpression("varf"), "varc"), new CompoundStatement(
+//                        new PrintStatement(new VarExpression("varc")), new CompoundStatement(new ReadNumberFromFile(
+//                                new ValueExpression(new StringValue("src/logs/test2.in")), "varc"
+//                ) ,new CloseReadFile(new VarExpression("varf")))
+//                )))
+//        ))
+//        );
 
         /*
              Program 5:
@@ -102,7 +118,12 @@ public class Interpreter {
                 new PrintStatement(new LogicExpression('&', new VarExpression("a"), new VarExpression("b")))))
         ));
 
-        IRepository repository = new Repository("src/logs/logs.txt");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the log file path: ");
+        String logFilePath = scanner.next();
+        System.out.println();
+
+        IRepository repository = new Repository(logFilePath);
         repository.addProgram(program1, "\n\tint v;\n\tv=2;\n\tPrint(v)");
         repository.addProgram(program2, "\n\tint x;\n\tint y;\n\tx = 2*3 + 3;\n\ty = 6-3;\n\tint z;\n\tz = x / y;\n\tPrint(z)");
         repository.addProgram(program3, "\n\tbool a;\n\ta=false;\n\tint v;\n\tIf a Then v=2 Else v=3;\n\tPrint(v));");

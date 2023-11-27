@@ -39,6 +39,9 @@ public class MyList<T> implements IMyList<T> {
 
     @Override
     public String toString() {
-        return list.toString();
+        String result = "";
+        for (T elem : list)
+            result = result + elem.toString() + '\n';
+        return result;
     }
 }

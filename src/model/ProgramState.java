@@ -5,6 +5,7 @@ import model.statements.IStatement;
 import model.values.IValue;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 
 public class ProgramState {
     private IMyStack<IStatement> executionStack;
@@ -75,9 +76,14 @@ public class ProgramState {
 
     @Override
     public String toString() {
-        return "ProgramState:" +
-                "\nExecution Stack: \n" + executionStack.toString() +
-                "\nSymbolTable: \n" + symbolTable.toString() +
-                "\nOutput: \n" + output.toString();
+        String fileTableString = "";
+        for (String reader : fileTable.keys()){
+            fileTableString += reader.toString() + ", ";
+        }
+        return "ProgramState:\n" +
+                "Execution Stack: \n" + executionStack.toString() +
+                "SymbolTable: \n" + symbolTable.toString() +
+                "Output: \n" + output.toString() +
+                "FileTable: \n" + fileTableString;
     }
 }
