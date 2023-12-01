@@ -8,11 +8,11 @@ import model.exceptions.ReadWriteException;
 import model.statements.IStatement;
 
 public interface IRepository {
-    void addProgram(IStatement startingStatement, String programInNaturalLanguage);
+    void addProgram(IStatement startingStatement);
 
     int size();
 
-    IMyList<IMyPair<ProgramState, String>> getAll();
+    IMyList<ProgramState> getAll();
 
     ProgramState getProgramAt(int index);
 

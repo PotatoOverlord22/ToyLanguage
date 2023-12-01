@@ -1,413 +1,143 @@
 ProgramState:
 Execution Stack: 
-{String varf;{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}}}
+{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}}
 SymbolTable: 
 Output: 
 FileTable: 
+Heap: 
 
 
 ProgramState:
 Execution Stack: 
-String varf
-{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}}
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
 SymbolTable: 
 Output: 
 FileTable: 
+Heap: 
 
 
 ProgramState:
 Execution Stack: 
-{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}}
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
 SymbolTable: 
-varf => 
+v => (0, int)
 Output: 
 FileTable: 
+Heap: 
 
 
 ProgramState:
 Execution Stack: 
-varf=src/logs/test.in
-{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
 SymbolTable: 
-varf => 
+v => (0, int)
 Output: 
 FileTable: 
+Heap: 
 
 
 ProgramState:
 Execution Stack: 
-{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
 SymbolTable: 
-varf => src/logs/test.in
+v => (1, int)
 Output: 
 FileTable: 
+Heap: 
+1 => 20
 
 
 ProgramState:
 Execution Stack: 
-openFileWithRead(varf)
-{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}
+Reference(Reference(int)) a
+{new(a, v);{print(a);print(v)}}
 SymbolTable: 
-varf => src/logs/test.in
+v => (1, int)
 Output: 
 FileTable: 
+Heap: 
+1 => 20
 
 
 ProgramState:
 Execution Stack: 
-{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}
+{new(a, v);{print(a);print(v)}}
 SymbolTable: 
-varf => src/logs/test.in
+a => (0, Reference(int))
+v => (1, int)
 Output: 
 FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-int varc
-{readNumber(varf, varc);{print(varc);closeFile(varf)}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{readNumber(varf, varc);{print(varc);closeFile(varf)}}
-SymbolTable: 
-varc => 0
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-readNumber(varf, varc)
-{print(varc);closeFile(varf)}
-SymbolTable: 
-varc => 0
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{print(varc);closeFile(varf)}
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-print(varc)
-closeFile(varf)
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-closeFile(varf)
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-123
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-123
-FileTable: 
+Heap: 
+1 => 20
 
 
 ProgramState:
 Execution Stack: 
-{String varf;{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}}}}
+new(a, v)
+{print(a);print(v)}
 SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
 Output: 
 FileTable: 
+Heap: 
+1 => 20
 
 
 ProgramState:
 Execution Stack: 
-String varf
-{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}}}
+{print(a);print(v)}
 SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
 Output: 
 FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
 
 
 ProgramState:
 Execution Stack: 
-{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}}}
+print(a)
+print(v)
 SymbolTable: 
-varf => 
+a => (2, Reference(int))
+v => (1, int)
 Output: 
 FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
 
 
 ProgramState:
 Execution Stack: 
-varf=src/logs/test.in
-{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}}
+print(v)
 SymbolTable: 
-varf => 
+a => (2, Reference(int))
+v => (1, int)
 Output: 
+(2, Reference(int))
 FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
 
 
 ProgramState:
 Execution Stack: 
-{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}}
 SymbolTable: 
-varf => src/logs/test.in
+a => (2, Reference(int))
+v => (1, int)
 Output: 
+(2, Reference(int))
+(1, int)
 FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-openFileWithRead(varf)
-{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-{int varc;{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-int varc
-{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{readNumber(varf, varc);{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}}
-SymbolTable: 
-varc => 0
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-readNumber(varf, varc)
-{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}
-SymbolTable: 
-varc => 0
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{print(varc);{readNumber(src/logs/test2.in, varc);closeFile(varf)}}
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-print(varc)
-{readNumber(src/logs/test2.in, varc);closeFile(varf)}
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{readNumber(src/logs/test2.in, varc);closeFile(varf)}
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-123
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-readNumber(src/logs/test2.in, varc)
-closeFile(varf)
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-123
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{String varf;{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}}}
-SymbolTable: 
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-String varf
-{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}}
-SymbolTable: 
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-{varf=src/logs/test.in;{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}}
-SymbolTable: 
-varf => 
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-varf=src/logs/test.in
-{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}
-SymbolTable: 
-varf => 
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-{openFileWithRead(varf);{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-openFileWithRead(varf)
-{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-
-
-ProgramState:
-Execution Stack: 
-{int varc;{readNumber(varf, varc);{print(varc);closeFile(varf)}}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-int varc
-{readNumber(varf, varc);{print(varc);closeFile(varf)}}
-SymbolTable: 
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{readNumber(varf, varc);{print(varc);closeFile(varf)}}
-SymbolTable: 
-varc => 0
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-readNumber(varf, varc)
-{print(varc);closeFile(varf)}
-SymbolTable: 
-varc => 0
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-{print(varc);closeFile(varf)}
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-print(varc)
-closeFile(varf)
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-closeFile(varf)
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-123
-FileTable: 
-src/logs/test.in, 
-
-ProgramState:
-Execution Stack: 
-SymbolTable: 
-varc => 123
-varf => src/logs/test.in
-Output: 
-123
-FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
 
 

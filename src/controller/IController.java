@@ -16,7 +16,7 @@ public interface IController {
 
     int repositorySize();
 
-    IMyList<IMyPair<ProgramState, String>> getAll();
+    IMyList<ProgramState> getAll();
 
     void resetProgram();
 }

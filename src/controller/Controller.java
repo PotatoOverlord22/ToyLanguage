@@ -60,7 +60,7 @@ public class Controller implements IController{
     }
 
     @Override
-    public IMyList<IMyPair<ProgramState, String>> getAll() {
+    public IMyList<ProgramState> getAll() {
         return repository.getAll();
     }
 

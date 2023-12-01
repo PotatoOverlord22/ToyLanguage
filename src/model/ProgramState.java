@@ -14,26 +14,32 @@ public class ProgramState {
 
     private IMyDictionary<String, BufferedReader> fileTable;
 
+    //
+    private IMyHeap heap;
+
     private
 
     IStatement originalState;
 
-    public ProgramState(IMyStack<IStatement> executionStack, IMyDictionary<String, IValue> symbolTable,
-                        IMyList<IValue> out, IMyDictionary<String, BufferedReader> fileTable, IStatement startingStatement) {
+    public ProgramState(IMyStack<IStatement> executionStack, IMyDictionary<String, IValue> symbolTable, IMyList<IValue> out,
+                        IMyDictionary<String, BufferedReader> fileTable, IStatement startingStatement, IMyHeap heap) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.output = out;
         this.fileTable = fileTable;
+        this.heap = heap;
         originalState = startingStatement.deepCopy();
         // This is the first statement on the stack
         executionStack.push(startingStatement);
     }
 
-    public void resetProgram(){
+    public void resetProgram() {
         executionStack = new MyStack<>();
         symbolTable = new MyDictionary<>();
         output = new MyList<>();
         fileTable = new MyDictionary<>();
+        heap = new MyHeap();
+
         IStatement startingStatement = originalState.deepCopy();
         executionStack.push(startingStatement);
     }
@@ -74,16 +80,18 @@ public class ProgramState {
         return fileTable;
     }
 
+    public IMyHeap getHeap() {
+        return heap;
+    }
+
     @Override
     public String toString() {
         String fileTableString = "";
-        for (String reader : fileTable.keys()){
+        // We only need the keys from the fileTable
+        for (String reader : fileTable.keys()) {
             fileTableString += reader.toString() + ", ";
         }
-        return "ProgramState:\n" +
-                "Execution Stack: \n" + executionStack.toString() +
-                "SymbolTable: \n" + symbolTable.toString() +
-                "Output: \n" + output.toString() +
-                "FileTable: \n" + fileTableString;
+        return "ProgramState:\n" + "Execution Stack: \n" + executionStack.toString() + "SymbolTable: \n" + symbolTable.toString()
+                + "Output: \n" + output.toString() + "FileTable: \n" + fileTableString + "Heap: \n" + heap.toString();
     }
 }

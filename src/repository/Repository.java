@@ -9,8 +9,7 @@ import model.values.IValue;
 import java.io.*;
 
 public class Repository implements IRepository {
-    // A list of programs and their "natural language" meaning
-    private final IMyList<IMyPair<ProgramState, String>> programs;
+    private final IMyList<ProgramState> programs;
 
     private String logFilePath;
 
@@ -20,9 +19,9 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public void addProgram(IStatement startingStatement, String programInNaturalLanguage) {
+    public void addProgram(IStatement startingStatement) {
         /*
-            Add the program alongside its meaning in natural language to the repository, ex:
+            Add the program to the repository, ex:
             startingStatement = new CompoundStatement(new VarDeclaration(new IntType(), "v"), new CompoundStatement(new AssignmentStatement("v",
                                     new ValueExpression(new IntValue(2)), new PrintStatement(new VarExpression("v"));
                 In natural language is equivalent to:
@@ -36,10 +35,11 @@ public class Repository implements IRepository {
         IMyList<IValue> output = new MyList<>();
         IMyDictionary<String, IValue> symbolTable = new MyDictionary<>();
         IMyDictionary<String, BufferedReader> fileTable = new MyDictionary<>();
+        IMyHeap heap = new MyHeap();
 
-        ProgramState program = new ProgramState(executionStack, symbolTable, output, fileTable,startingStatement);
+        ProgramState program = new ProgramState(executionStack, symbolTable, output, fileTable,startingStatement, heap);
 
-        programs.add(new MyPair<>(program, programInNaturalLanguage));
+        programs.add(program);
     }
 
     @Override
@@ -48,18 +48,18 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public IMyList<IMyPair<ProgramState, String>> getAll() {
+    public IMyList<ProgramState> getAll() {
         return programs;
     }
 
     @Override
     public ProgramState getProgramAt(int index) {
-        return programs.get(index).first();
+        return programs.get(index);
     }
 
     @Override
     public void logProgramState(int programIndex) throws ReadWriteException {
-        ProgramState programToPrint = programs.get(programIndex).first();
+        ProgramState programToPrint = programs.get(programIndex);
         try{
             //
             PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
@@ -73,6 +73,6 @@ public class Repository implements IRepository {
 
     @Override
     public void resetProgram(int index) {
-        programs.get(index).first().resetProgram();
+        programs.get(index).resetProgram();
     }
 }

@@ -7,13 +7,13 @@ import model.expressions.VarExpression;
 import model.statements.*;
 import model.types.BoolType;
 import model.types.IntType;
+import model.types.ReferenceType;
 import model.types.StringType;
 import model.values.BoolValue;
 import model.values.IntValue;
 import model.values.StringValue;
 import repository.IRepository;
 import repository.Repository;
-import view.IView;
 import view.TextView;
 import view.commands.ExitCommand;
 import view.commands.RunProgramCommand;
@@ -118,18 +118,33 @@ public class Interpreter {
                 new PrintStatement(new LogicExpression('&', new VarExpression("a"), new VarExpression("b")))))
         ));
 
+        /*
+            Program 6:
+            Ref int v;
+            new(v,20);
+            Ref Ref int a;
+            new(a,v);
+            print(v);
+            print(a)
+         */
+        IStatement program6 = new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "v"),
+                new CompoundStatement(new HeapAllocation("v", new ValueExpression(new IntValue(20))),
+                        new CompoundStatement(new VarDeclaration(new ReferenceType(new ReferenceType(new IntType())), "a"),
+                                new CompoundStatement(new HeapAllocation("a", new VarExpression("v")),
+                                        new CompoundStatement(new PrintStatement(new VarExpression("a")), new PrintStatement(new VarExpression("v")))))));
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the log file path: ");
         String logFilePath = scanner.next();
         System.out.println();
 
         IRepository repository = new Repository(logFilePath);
-        repository.addProgram(program1, "\n\tint v;\n\tv=2;\n\tPrint(v)");
-        repository.addProgram(program2, "\n\tint x;\n\tint y;\n\tx = 2*3 + 3;\n\ty = 6-3;\n\tint z;\n\tz = x / y;\n\tPrint(z)");
-        repository.addProgram(program3, "\n\tbool a;\n\ta=false;\n\tint v;\n\tIf a Then v=2 Else v=3;\n\tPrint(v));");
-        repository.addProgram(program4, "\n\tString varf;\n\tvarf = test.in\n\topenRFile(varf);\n\tint varc;\n\treadFile(varf, varc);"
-                            + "\n\tprint(varc);\n\tcloseRFile(varf);");
-        repository.addProgram(program5, "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);");
+        repository.addProgram(program1);
+        repository.addProgram(program2);
+        repository.addProgram(program3);
+        repository.addProgram(program4);
+        repository.addProgram(program5);
+        repository.addProgram(program6);
         TextView view = new TextView();
 
         IController controller1 = new Controller(repository, 0);
@@ -147,6 +162,9 @@ public class Interpreter {
 
         IController controller5 = new Controller(repository, 4);
         view.addCommand(new RunProgramCommand("5", "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);", controller5));
+
+        IController controller6 = new Controller(repository, 5);
+        view.addCommand(new RunProgramCommand("6", "", controller6));
 
         view.addCommand(new ExitCommand("0", "Exit"));
 
