@@ -1,6 +1,7 @@
 package model.expressions;
 
 import model.adts.IMyDictionary;
+import model.adts.IMyHeap;
 import model.exceptions.EvaluationException;
 import model.types.BoolType;
 import model.values.BoolValue;
@@ -24,10 +25,10 @@ public class LogicExpression implements IExpression {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table) throws EvaluationException {
+    public IValue evaluate(IMyDictionary<String, IValue> table, IMyHeap heap) throws EvaluationException {
         IValue firstIValue, secondIValue;
-        firstIValue = firstExpression.evaluate(table);
-        secondIValue = secondExpression.evaluate(table);
+        firstIValue = firstExpression.evaluate(table, heap);
+        secondIValue = secondExpression.evaluate(table, heap);
         // Check type compatibility
         if (!isCompatible(firstIValue, secondIValue))
             throw new EvaluationException("operands are incompatible");

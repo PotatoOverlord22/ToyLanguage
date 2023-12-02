@@ -1,6 +1,7 @@
 package model.expressions;
 
 import model.adts.IMyDictionary;
+import model.adts.IMyHeap;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.types.IntType;
@@ -23,13 +24,13 @@ public class RelationalExpression implements IExpression {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table) throws EvaluationException {
+    public IValue evaluate(IMyDictionary<String, IValue> table, IMyHeap heap) throws EvaluationException {
         // Check if the operator given is implemented
         if(!isSupportedOperator(operator))
             throw new EvaluationException("Operator " + operator + " is not supported");
         // Check if both the expressions evaluate to integers
-        IValue firstValue = firstExpression.evaluate(table);
-        IValue secondValue = secondExpression.evaluate(table);
+        IValue firstValue = firstExpression.evaluate(table, heap);
+        IValue secondValue = secondExpression.evaluate(table, heap);
         // Both values must be of integer type, otherwise throw exception
         if (!(firstValue.getType().equals(new IntType()) && secondValue.getType().equals(new IntType())))
             throw new EvaluationException("Expression " + firstExpression + " and/or expression " + secondExpression + " don't meet the required expression type");
