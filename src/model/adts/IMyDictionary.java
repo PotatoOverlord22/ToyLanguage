@@ -2,6 +2,7 @@ package model.adts;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Set;
 
 public interface IMyDictionary<T, U> {
@@ -14,4 +15,6 @@ public interface IMyDictionary<T, U> {
     Collection<U> values();
 
     Set<T> keys();
+
+    Map<T, U> getContent();
 }

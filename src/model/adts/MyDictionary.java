@@ -5,7 +5,7 @@ import model.adts.IMyDictionary;
 import java.util.*;
 
 public class MyDictionary<T, U> implements IMyDictionary<T, U> {
-    private Hashtable<T, U> dict = new Hashtable<>();
+    private Map<T, U> dict = new Hashtable<>();
     @Override
     public U get(T key) {
         return dict.get(key);
@@ -35,5 +35,10 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
 
     public Set<T> keys(){
         return dict.keySet();
+    }
+
+    @Override
+    public Map<T, U> getContent() {
+        return dict;
     }
 }

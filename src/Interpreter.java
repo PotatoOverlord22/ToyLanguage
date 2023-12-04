@@ -153,7 +153,6 @@ public class Interpreter {
         repository.addProgram(program3);
         repository.addProgram(program4);
         repository.addProgram(program5);
-        repository.addProgram(program6);
         repository.addProgram(program7);
         TextView view = new TextView();
 
@@ -174,10 +173,7 @@ public class Interpreter {
         view.addCommand(new RunProgramCommand("5", "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);", controller5));
 
         IController controller6 = new Controller(repository, 5);
-        view.addCommand(new RunProgramCommand("6", "", controller6));
-
-        IController controller7 = new Controller(repository, 6);
-        view.addCommand(new RunProgramCommand("8", "", controller7));
+        view.addCommand(new RunProgramCommand("6", "{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}}", controller6));
 
         view.addCommand(new ExitCommand("0", "Exit"));
 

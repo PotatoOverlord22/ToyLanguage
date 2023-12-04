@@ -1,6 +1,6 @@
 ProgramState:
 Execution Stack: 
-{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}}
+{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}}
 SymbolTable: 
 Output: 
 FileTable: 
@@ -10,7 +10,7 @@ Heap:
 ProgramState:
 Execution Stack: 
 Reference(int) v
-{new(v, 20);{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
 SymbolTable: 
 Output: 
 FileTable: 
@@ -20,7 +20,7 @@ Heap:
 ProgramState:
 Execution Stack: 
 Reference(int) v
-{new(v, 20);{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
 SymbolTable: 
 Output: 
 FileTable: 
@@ -29,7 +29,7 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-{new(v, 20);{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
 SymbolTable: 
 v => (0, int)
 Output: 
@@ -39,7 +39,7 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-{new(v, 20);{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
 SymbolTable: 
 v => (0, int)
 Output: 
@@ -50,7 +50,7 @@ Heap:
 ProgramState:
 Execution Stack: 
 new(v, 20)
-{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
 SymbolTable: 
 v => (0, int)
 Output: 
@@ -61,7 +61,7 @@ Heap:
 ProgramState:
 Execution Stack: 
 new(v, 20)
-{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
 SymbolTable: 
 v => (0, int)
 Output: 
@@ -71,7 +71,7 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
 SymbolTable: 
 v => (1, int)
 Output: 
@@ -82,7 +82,7 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-{Reference(Reference(int)) a;{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
 SymbolTable: 
 v => (1, int)
 Output: 
@@ -94,7 +94,7 @@ Heap:
 ProgramState:
 Execution Stack: 
 Reference(Reference(int)) a
-{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+{new(a, v);{print(a);print(v)}}
 SymbolTable: 
 v => (1, int)
 Output: 
@@ -106,7 +106,7 @@ Heap:
 ProgramState:
 Execution Stack: 
 Reference(Reference(int)) a
-{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+{new(a, v);{print(a);print(v)}}
 SymbolTable: 
 v => (1, int)
 Output: 
@@ -117,19 +117,7 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
-SymbolTable: 
-a => (0, Reference(int))
-v => (1, int)
-Output: 
-FileTable: 
-Heap: 
-1 => 20
-
-
-ProgramState:
-Execution Stack: 
-{skip step;{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+{new(a, v);{print(a);print(v)}}
 SymbolTable: 
 a => (0, Reference(int))
 v => (1, int)
@@ -141,7 +129,850 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-skip step
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
+{print(a);print(v)}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
+{print(a);print(v)}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{print(a);print(v)}
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+{print(a);print(v)}
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(a)
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(a)
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+(1, int)
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+(1, int)
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+Reference(Reference(int)) a
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+Reference(Reference(int)) a
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
+{print(a);print(v)}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
+{print(a);print(v)}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{print(a);print(v)}
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+{print(a);print(v)}
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(a)
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(a)
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+(1, int)
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+(1, int)
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{Reference(Reference(int)) a;{new(a, v);{print(a);print(v)}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+Reference(Reference(int)) a
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+Reference(Reference(int)) a
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{new(a, v);{print(a);print(v)}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
+{print(a);print(v)}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
+{print(a);print(v)}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{print(a);print(v)}
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+{print(a);print(v)}
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(a)
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(a)
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+print(v)
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+(1, int)
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (1, int)
+Output: 
+(2, Reference(int))
+(1, int)
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+
+
+ProgramState:
+Execution Stack: 
+{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+Reference(int) v
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+SymbolTable: 
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+new(v, 20)
+{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+SymbolTable: 
+v => (0, int)
+Output: 
+FileTable: 
+Heap: 
+
+
+ProgramState:
+Execution Stack: 
+{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+Reference(Reference(int)) a
+{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+Reference(Reference(int)) a
+{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+SymbolTable: 
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}
+SymbolTable: 
+a => (0, Reference(int))
+v => (1, int)
+Output: 
+FileTable: 
+Heap: 
+1 => 20
+
+
+ProgramState:
+Execution Stack: 
+new(a, v)
 {new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}
 SymbolTable: 
 a => (0, Reference(int))
@@ -154,7 +985,7 @@ Heap:
 
 ProgramState:
 Execution Stack: 
-skip step
+new(a, v)
 {new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}
 SymbolTable: 
 a => (0, Reference(int))
@@ -169,24 +1000,26 @@ ProgramState:
 Execution Stack: 
 {new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}
 SymbolTable: 
-a => (0, Reference(int))
+a => (2, Reference(int))
 v => (1, int)
 Output: 
 FileTable: 
 Heap: 
 1 => 20
+2 => (1, int)
 
 
 ProgramState:
 Execution Stack: 
 {new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}
 SymbolTable: 
-a => (0, Reference(int))
+a => (2, Reference(int))
 v => (1, int)
 Output: 
 FileTable: 
 Heap: 
 1 => 20
+2 => (1, int)
 
 
 ProgramState:
@@ -194,12 +1027,13 @@ Execution Stack:
 new(v, 30)
 {print(heapRead(heapRead(a)));new(v, 90)}
 SymbolTable: 
-a => (0, Reference(int))
+a => (2, Reference(int))
 v => (1, int)
 Output: 
 FileTable: 
 Heap: 
 1 => 20
+2 => (1, int)
 
 
 ProgramState:
@@ -207,37 +1041,41 @@ Execution Stack:
 new(v, 30)
 {print(heapRead(heapRead(a)));new(v, 90)}
 SymbolTable: 
-a => (0, Reference(int))
+a => (2, Reference(int))
 v => (1, int)
 Output: 
 FileTable: 
 Heap: 
 1 => 20
+2 => (1, int)
 
 
 ProgramState:
 Execution Stack: 
 {print(heapRead(heapRead(a)));new(v, 90)}
 SymbolTable: 
-a => (0, Reference(int))
-v => (2, int)
+a => (2, Reference(int))
+v => (3, int)
 Output: 
 FileTable: 
 Heap: 
 1 => 20
-2 => 30
+2 => (1, int)
+3 => 30
 
 
 ProgramState:
 Execution Stack: 
 {print(heapRead(heapRead(a)));new(v, 90)}
 SymbolTable: 
-a => (0, Reference(int))
-v => (2, int)
+a => (2, Reference(int))
+v => (3, int)
 Output: 
 FileTable: 
 Heap: 
-2 => 30
+1 => 20
+2 => (1, int)
+3 => 30
 
 
 ProgramState:
@@ -245,12 +1083,14 @@ Execution Stack:
 print(heapRead(heapRead(a)))
 new(v, 90)
 SymbolTable: 
-a => (0, Reference(int))
-v => (2, int)
+a => (2, Reference(int))
+v => (3, int)
 Output: 
 FileTable: 
 Heap: 
-2 => 30
+1 => 20
+2 => (1, int)
+3 => 30
 
 
 ProgramState:
@@ -258,11 +1098,72 @@ Execution Stack:
 print(heapRead(heapRead(a)))
 new(v, 90)
 SymbolTable: 
-a => (0, Reference(int))
-v => (2, int)
+a => (2, Reference(int))
+v => (3, int)
 Output: 
 FileTable: 
 Heap: 
-2 => 30
+1 => 20
+2 => (1, int)
+3 => 30
+
+
+ProgramState:
+Execution Stack: 
+new(v, 90)
+SymbolTable: 
+a => (2, Reference(int))
+v => (3, int)
+Output: 
+20
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+3 => 30
+
+
+ProgramState:
+Execution Stack: 
+new(v, 90)
+SymbolTable: 
+a => (2, Reference(int))
+v => (3, int)
+Output: 
+20
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+3 => 30
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (4, int)
+Output: 
+20
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+3 => 30
+4 => 90
+
+
+ProgramState:
+Execution Stack: 
+SymbolTable: 
+a => (2, Reference(int))
+v => (4, int)
+Output: 
+20
+FileTable: 
+Heap: 
+1 => 20
+2 => (1, int)
+4 => 90
 
 

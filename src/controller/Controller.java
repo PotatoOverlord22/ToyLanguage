@@ -71,7 +71,7 @@ public class Controller implements IController{
                 getAddresses(heap.getContent().values()).stream()).toList();
         IMyHeap newHeap = new MyHeap();
         newHeap.setContent(heap.getContent().entrySet().stream().filter(elem -> addressesToKeep.contains(elem.getKey())).collect(
-                Collectors.toMap(elem -> elem.getKey(), elem -> elem.getValue())));
+                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
         return newHeap;
     }
 

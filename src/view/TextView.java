@@ -12,7 +12,9 @@ import model.exceptions.ReadWriteException;
 import model.statements.IStatement;
 import view.commands.Command;
 
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class TextView implements IView{
     private boolean stopView = false;
