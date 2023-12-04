@@ -1,9 +1,6 @@
 import controller.Controller;
 import controller.IController;
-import model.expressions.ArithmeticExpression;
-import model.expressions.LogicExpression;
-import model.expressions.ValueExpression;
-import model.expressions.VarExpression;
+import model.expressions.*;
 import model.statements.*;
 import model.types.BoolType;
 import model.types.IntType;
@@ -133,6 +130,18 @@ public class Interpreter {
                                 new CompoundStatement(new HeapAllocation("a", new VarExpression("v")),
                                         new CompoundStatement(new PrintStatement(new VarExpression("a")), new PrintStatement(new VarExpression("v")))))));
 
+        IStatement program7 = new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "v"),
+                new CompoundStatement(new HeapAllocation("v", new ValueExpression(new IntValue(20))),
+                        new CompoundStatement(new VarDeclaration(new ReferenceType(new ReferenceType(new IntType())), "a"),
+                                new CompoundStatement(new HeapAllocation("a", new VarExpression("v")),
+                                        new CompoundStatement(new HeapAllocation("v", new ValueExpression(new IntValue(30))),
+                                                new CompoundStatement(new PrintStatement(new HeapReadExpression(new HeapReadExpression(new VarExpression("a")))),
+                                                        new HeapAllocation("v", new ValueExpression(new IntValue(90))))))
+                        )
+                )
+
+        );
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the log file path: ");
         String logFilePath = scanner.next();
@@ -145,6 +154,7 @@ public class Interpreter {
         repository.addProgram(program4);
         repository.addProgram(program5);
         repository.addProgram(program6);
+        repository.addProgram(program7);
         TextView view = new TextView();
 
         IController controller1 = new Controller(repository, 0);
@@ -165,6 +175,9 @@ public class Interpreter {
 
         IController controller6 = new Controller(repository, 5);
         view.addCommand(new RunProgramCommand("6", "", controller6));
+
+        IController controller7 = new Controller(repository, 6);
+        view.addCommand(new RunProgramCommand("8", "", controller7));
 
         view.addCommand(new ExitCommand("0", "Exit"));
 

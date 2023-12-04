@@ -84,6 +84,10 @@ public class ProgramState {
         return heap;
     }
 
+    public void setHeap(IMyHeap heap) {
+        this.heap = heap;
+    }
+
     @Override
     public String toString() {
         String fileTableString = "";

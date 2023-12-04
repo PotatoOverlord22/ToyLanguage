@@ -28,7 +28,7 @@ public class HeapAllocation implements IStatement{
         if (!(varValue.getType() instanceof ReferenceType))
             throw new ExecutionException("Variable " + varName + " is not a reference type");
         // Now we can evaluate the expression
-        IValue expValue = expression.evaluate(state.getSymbolTable());
+        IValue expValue = expression.evaluate(state.getSymbolTable(), state.getHeap());
         // Check if the type of the evaluated expression is the same as the referenced type of varName
         if (!expValue.getType().equals(((ReferenceValue) varValue).getLocationType()))
             throw new ExecutionException("Expression " + expression + " and variable " + varName + " type mismatch");

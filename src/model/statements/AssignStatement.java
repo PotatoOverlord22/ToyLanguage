@@ -23,7 +23,7 @@ public class AssignStatement implements IStatement{
         // Check if the variable is in the symbol table
         if (symbolTable.get(varId) == null)
             throw new ExecutionException("variable " + varId + " was not declared");
-        IValue value = assignedExpression.evaluate(symbolTable);
+        IValue value = assignedExpression.evaluate(symbolTable, state.getHeap());
         IType varType = symbolTable.get(varId).getType();
         // Check if variable type and the value of the expression match (can't assign to an int var type a boolean value
         if (!value.getType().equals(varType))

@@ -21,7 +21,7 @@ public class CloseReadFile implements IStatement{
 
     @Override
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException, ReadWriteException {
-        IValue fileValue = expression.evaluate(state.getSymbolTable());
+        IValue fileValue = expression.evaluate(state.getSymbolTable(), state.getHeap());
         // Check if the expression evaluates to a string type (we need a file name and that must be a string)
         if(!fileValue.getType().equals(new StringType()))
             throw  new ExecutionException("File name " + fileValue + "is not of StringType");

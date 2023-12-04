@@ -24,4 +24,6 @@ public interface IMyHeap {
     void clear();
 
     Map<Integer, IValue> getContent();
+
+    void setContent(Map<Integer, IValue> newContent);
 }

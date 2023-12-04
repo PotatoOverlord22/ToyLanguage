@@ -22,7 +22,7 @@ public class IfStatement implements IStatement{
 
     @Override
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException {
-        IValue condition = ifExpression.evaluate(state.getSymbolTable());
+        IValue condition = ifExpression.evaluate(state.getSymbolTable(), state.getHeap());
         // Check if the condition is boolean in the first place
         if (!condition.getType().equals(new BoolType()))
             throw new ExecutionException("condition in if statement " + ifExpression.toString() + " is not boolean");

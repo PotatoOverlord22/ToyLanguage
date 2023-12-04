@@ -10,7 +10,7 @@ public class MyHeap implements IMyHeap{
         NOTE: This probably could be implemented a bit better with a list of empty locations in the heap such that
                 we don't need to iterate over all the occupied locations to find an empty one
      */
-    private final Map<Integer, IValue> heap;
+    private Map<Integer, IValue> heap;
     // Keep track of the free location in our heap
     private int freeLocationIndex;
 
@@ -79,5 +79,10 @@ public class MyHeap implements IMyHeap{
 
     public Map<Integer, IValue> getContent() {
         return heap;
+    }
+
+    @Override
+    public void setContent(Map<Integer, IValue> newContent) {
+        heap = newContent;
     }
 }

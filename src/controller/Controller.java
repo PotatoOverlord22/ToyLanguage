@@ -50,7 +50,9 @@ public class Controller implements IController{
             oneStep(program);
             if (!showOnlyResult)
                 repository.logProgramState(programIndex);
-
+            program.setHeap(garbageCollector(program.getSymbolTable(), program.getHeap()));
+            if (!showOnlyResult)
+                repository.logProgramState(programIndex);
         }
         if (showOnlyResult)
             repository.logProgramState(programIndex);
@@ -67,7 +69,10 @@ public class Controller implements IController{
         // Create a list with correct addresses from the symbol table and the heap
         List<Integer> addressesToKeep = Stream.concat(getAddresses(symbolTable.values()).stream(),
                 getAddresses(heap.getContent().values()).stream()).toList();
-
+        IMyHeap newHeap = new MyHeap();
+        newHeap.setContent(heap.getContent().entrySet().stream().filter(elem -> addressesToKeep.contains(elem.getKey())).collect(
+                Collectors.toMap(elem -> elem.getKey(), elem -> elem.getValue())));
+        return newHeap;
     }
 
     private List<Integer> getAddresses(Collection<IValue> collection){
