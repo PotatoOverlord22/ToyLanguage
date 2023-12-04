@@ -2,6 +2,9 @@ package model.adts;
 
 import model.values.IValue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public interface IMyHeap {
     IValue get(int location);
 
@@ -19,4 +22,6 @@ public interface IMyHeap {
     int lastGeneratedAddress();
 
     void clear();
+
+    Map<Integer, IValue> getContent();
 }

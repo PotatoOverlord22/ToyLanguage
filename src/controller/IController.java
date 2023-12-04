@@ -1,11 +1,11 @@
 package controller;
 
 import model.ProgramState;
-import model.adts.IMyList;
-import model.adts.IMyPair;
+import model.adts.*;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
+import model.values.IValue;
 
 public interface IController {
     ProgramState oneStep(ProgramState currentState) throws ExecutionException, EvaluationException, ReadWriteException;
@@ -17,6 +17,8 @@ public interface IController {
     int repositorySize();
 
     IMyList<ProgramState> getAll();
+
+    IMyHeap garbageCollector(IMyDictionary<String, IValue> symbolTable, IMyHeap heap);
 
     void resetProgram();
 }

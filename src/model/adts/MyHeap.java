@@ -3,13 +3,14 @@ package model.adts;
 import model.values.IValue;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MyHeap implements IMyHeap{
     /*
         NOTE: This probably could be implemented a bit better with a list of empty locations in the heap such that
                 we don't need to iterate over all the occupied locations to find an empty one
      */
-    private final HashMap<Integer, IValue> heap;
+    private final Map<Integer, IValue> heap;
     // Keep track of the free location in our heap
     private int freeLocationIndex;
 
@@ -74,5 +75,9 @@ public class MyHeap implements IMyHeap{
         for (int key : heap.keySet())
             result += key + " => " + heap.get(key).toString() + '\n';
         return result;
+    }
+
+    public Map<Integer, IValue> getContent() {
+        return heap;
     }
 }

@@ -1,5 +1,7 @@
 package model.adts;
 
+import java.util.List;
+
 public interface IMyList<T> {
     void add(T newItem);
 
@@ -12,4 +14,6 @@ public interface IMyList<T> {
     void clear();
 
     int size();
+
+    void setContent(List<T> newContent);
 }

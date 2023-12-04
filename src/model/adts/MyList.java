@@ -3,9 +3,10 @@ package model.adts;
 import model.adts.IMyList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyList<T> implements IMyList<T> {
-    private ArrayList<T> list = new ArrayList<T>();
+    private List<T> list = new ArrayList<>();
 
     @Override
     public void add(T newItem) {
@@ -43,5 +44,10 @@ public class MyList<T> implements IMyList<T> {
         for (T elem : list)
             result = result + elem.toString() + '\n';
         return result;
+    }
+
+    @Override
+    public void setContent(List<T> newContent) {
+        list = newContent;
     }
 }

@@ -1,14 +1,20 @@
 package controller;
 
 import model.ProgramState;
-import model.adts.IMyList;
-import model.adts.IMyPair;
-import model.adts.IMyStack;
+import model.adts.*;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.statements.IStatement;
+import model.values.IValue;
+import model.values.ReferenceValue;
 import repository.IRepository;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Controller implements IController{
     private final IRepository repository;
@@ -44,6 +50,7 @@ public class Controller implements IController{
             oneStep(program);
             if (!showOnlyResult)
                 repository.logProgramState(programIndex);
+
         }
         if (showOnlyResult)
             repository.logProgramState(programIndex);
@@ -52,6 +59,22 @@ public class Controller implements IController{
     public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException{
         this.programIndex = programIndex;
         allSteps(true);
+    }
+    public IMyHeap garbageCollector(IMyDictionary<String, IValue> symbolTable, IMyHeap heap){
+        /*
+
+         */
+        // Create a list with correct addresses from the symbol table and the heap
+        List<Integer> addressesToKeep = Stream.concat(getAddresses(symbolTable.values()).stream(),
+                getAddresses(heap.getContent().values()).stream()).toList();
+
+    }
+
+    private List<Integer> getAddresses(Collection<IValue> collection){
+        /*
+            returns all the addresses from the elements that are Reference Values from a collection
+         */
+        return collection.stream().filter(elem -> elem instanceof ReferenceValue).map(elem -> ((ReferenceValue) elem).getAddress()).collect(Collectors.toList());
     }
 
     @Override
