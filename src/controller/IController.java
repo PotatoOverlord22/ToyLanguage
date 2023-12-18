@@ -7,18 +7,21 @@ import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.values.IValue;
 
+import java.util.List;
+
 public interface IController {
-    ProgramState oneStep(ProgramState currentState) throws ExecutionException, EvaluationException, ReadWriteException;
+    void allStep();
 
-    void allSteps(boolean showOnlyResult) throws ExecutionException, EvaluationException, ReadWriteException;
-
-    public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException;
+    void oneStepForAllPrograms(List<ProgramState> programList);
 
     int repositorySize();
 
-    IMyList<ProgramState> getAll();
+    List<ProgramState> getAll();
 
-    IMyHeap garbageCollector(IMyDictionary<String, IValue> symbolTable, IMyHeap heap);
+    IMyHeap garbageCollector(SymbolTable symbolTable, IMyHeap heap);
 
     void resetProgram();
+
+    List<ProgramState> removeCompletedPrograms(List<ProgramState> programList);
+
 }

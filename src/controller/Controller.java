@@ -2,10 +2,6 @@ package controller;
 
 import model.ProgramState;
 import model.adts.*;
-import model.exceptions.EvaluationException;
-import model.exceptions.ExecutionException;
-import model.exceptions.ReadWriteException;
-import model.statements.IStatement;
 import model.values.IValue;
 import model.values.ReferenceValue;
 import repository.IRepository;
@@ -13,56 +9,70 @@ import repository.IRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Controller implements IController{
     private final IRepository repository;
+    private ExecutorService executor;
 
-    private int programIndex;
-    public Controller (IRepository repository, int programToRunIndex){
+    public Controller (IRepository repository){
         this.repository = repository;
-        this.programIndex = programToRunIndex;
     }
     @Override
-    public ProgramState oneStep(ProgramState currentState) throws ExecutionException, EvaluationException, ReadWriteException {
-        /*
-            Function executes one step of the interpreter then stops and returns the new state of the program (or an exception)
-            Executing one step means executing the statement at the top of the execution stack.
-         */
-        IMyStack<IStatement> exeStack = currentState.getExecutionStack();
-        if (exeStack.isEmpty())
-            throw new ExecutionException("Stack is empty!");
-        return exeStack.pop().execute(currentState);
-    }
-
-    @Override
-    public void allSteps(boolean showOnlyResult) throws ExecutionException, EvaluationException, ReadWriteException {
-        /*
-            Function executes the whole program and then stops, meaning this function does not exit until the execution stack is empty
-         */
-        ProgramState program = repository.getProgramAt(programIndex);
-        if(!showOnlyResult)
-            repository.logProgramState(programIndex);
-        IMyStack<IStatement> executionStack = program.getExecutionStack();
-
-        while (!executionStack.isEmpty()){
-            oneStep(program);
-            if (!showOnlyResult)
-                repository.logProgramState(programIndex);
-            program.setHeap(garbageCollector(program.getSymbolTable(), program.getHeap()));
-            if (!showOnlyResult)
-                repository.logProgramState(programIndex);
+    public void oneStepForAllPrograms(List<ProgramState> programList){
+        // First log the list of program states
+        for (ProgramState program : programList) {
+            repository.logProgramState(program);
         }
-        if (showOnlyResult)
-            repository.logProgramState(programIndex);
+        // Prepare the list of callables for concurrency
+        List<Callable<ProgramState>> callList = programList.stream()
+                .map((ProgramState program) -> (Callable<ProgramState>) program::oneStep).toList();
+        // Start the exec of callables
+        try {
+            // This list contains the newly created threads from the already running programs
+            List<ProgramState> newProgramList = executor.invokeAll(callList).stream().map(future -> {
+                try{
+                    return future.get();
+                }
+                catch (java.util.concurrent.ExecutionException| InterruptedException exception){
+                    repository.logErrorMessage(exception.getMessage());
+                }
+                return null;
+            }).filter(Objects::nonNull).toList();
+            // Add all the new programs to the programs list
+            programList.addAll(newProgramList);
+            // After they have been executed and garbage collected, log them
+            programList.forEach(program -> program.setHeap(garbageCollector(program.getSymbolTable(), program.getHeap())));
+            programList.forEach(repository::logProgramState);
+            // Now save them to the repository
+            repository.setProgramList(programList);
+        } catch (InterruptedException e) {
+            repository.logErrorMessage(e.getMessage());
+        }
     }
 
-    public void runAllStepsOnProgram(int programIndex) throws ExecutionException, EvaluationException, ReadWriteException{
-        this.programIndex = programIndex;
-        allSteps(true);
+    @Override
+    public void allStep() {
+        // Call the factory of executors
+        executor = Executors.newFixedThreadPool(2);
+        // Remove completed programs
+        List<ProgramState> programs = removeCompletedPrograms(repository.getProgramList());
+        while(!programs.isEmpty()){
+            oneStepForAllPrograms(programs);
+            // Remove the completed programs after each step
+            programs = removeCompletedPrograms(repository.getProgramList());
+        }
+        executor.shutdownNow();
+        // Update repository state
+        repository.setProgramList(programs);
     }
-    public IMyHeap garbageCollector(IMyDictionary<String, IValue> symbolTable, IMyHeap heap){
+
+    public IMyHeap garbageCollector(SymbolTable symbolTable, IMyHeap heap){
         /*
 
          */
@@ -88,20 +98,17 @@ public class Controller implements IController{
     }
 
     @Override
-    public IMyList<ProgramState> getAll() {
-        return repository.getAll();
+    public List<ProgramState> getAll() {
+        return repository.getProgramList();
     }
 
     @Override
     public void resetProgram() {
-        repository.resetProgram(programIndex);
+        repository.resetAllPrograms();
     }
 
-    public void setProgramIndex(int programIndex) {
-        this.programIndex = programIndex;
-    }
-
-    public int getProgramIndex() {
-        return programIndex;
+    @Override
+    public List<ProgramState> removeCompletedPrograms(List<ProgramState> programList) {
+        return programList.stream().filter(program -> !program.isCompleted()).collect(Collectors.toList());
     }
 }
