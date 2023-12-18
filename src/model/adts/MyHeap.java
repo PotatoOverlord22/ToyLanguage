@@ -4,18 +4,18 @@ import model.values.IValue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MyHeap implements IMyHeap{
     /*
         NOTE: This probably could be implemented a bit better with a list of empty locations in the heap such that
                 we don't need to iterate over all the occupied locations to find an empty one
      */
-    private Map<Integer, IValue> heap;
+    private Map<Integer, IValue> heap = new ConcurrentHashMap<>();
     // Keep track of the free location in our heap
     private int freeLocationIndex;
 
     public MyHeap(){
-        heap = new HashMap<>();
         freeLocationIndex = 1;
     }
 
