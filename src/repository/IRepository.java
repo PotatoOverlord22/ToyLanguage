@@ -1,22 +1,20 @@
 package repository;
 
 import model.ProgramState;
-import model.adts.IMyList;
-import model.adts.IMyPair;
-import model.exceptions.ExecutionException;
-import model.exceptions.ReadWriteException;
-import model.statements.IStatement;
+
+import java.util.List;
 
 public interface IRepository {
-    void addProgram(IStatement startingStatement);
-
     int size();
 
-    IMyList<ProgramState> getAll();
+    List<ProgramState> getProgramList();
 
-    ProgramState getProgramAt(int index);
+    void setProgramList(List<ProgramState> newProgramList);
 
-    void logProgramState(int programIndex) throws ReadWriteException;
+    void logProgramState(ProgramState programToLog);
 
-    void resetProgram(int index);
+    void resetAllPrograms();
+
+    void logErrorMessage(String errorMsg);
+    
 }

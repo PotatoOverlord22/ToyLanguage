@@ -7,38 +7,18 @@ import model.statements.IStatement;
 import model.values.IValue;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Repository implements IRepository {
-    private final IMyList<ProgramState> programs;
+    private List<ProgramState> programs;
+    private final String ERROR_LOG_FILE_PATH = "src/src/errors.txt";
 
-    private String logFilePath;
+    private final String logFilePath;
 
-    public Repository(String logFilePath) {
+    public Repository(String logFilePath, ProgramState program) {
         this.logFilePath = logFilePath;
-        programs = new MyList<>();
-    }
-
-    @Override
-    public void addProgram(IStatement startingStatement) {
-        /*
-            Add the program to the repository, ex:
-            startingStatement = new CompoundStatement(new VarDeclaration(new IntType(), "v"), new CompoundStatement(new AssignmentStatement("v",
-                                    new ValueExpression(new IntValue(2)), new PrintStatement(new VarExpression("v"));
-                In natural language is equivalent to:
-            int v;
-            v=2;
-            Print(v)
-         */
-        // Create an instance of execution stack, symbol table and output for each program
-        // because each program state needs its separate instance
-        IMyStack<IStatement> executionStack = new MyStack<>();
-        IMyList<IValue> output = new MyList<>();
-        IMyDictionary<String, IValue> symbolTable = new MyDictionary<>();
-        IMyDictionary<String, BufferedReader> fileTable = new MyDictionary<>();
-        IMyHeap heap = new MyHeap();
-
-        ProgramState program = new ProgramState(executionStack, symbolTable, output, fileTable,startingStatement, heap);
-
+        programs = new ArrayList<>();
         programs.add(program);
     }
 
@@ -48,31 +28,39 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public IMyList<ProgramState> getAll() {
+    public List<ProgramState> getProgramList() {
         return programs;
     }
 
     @Override
-    public ProgramState getProgramAt(int index) {
-        return programs.get(index);
-    }
-
-    @Override
-    public void logProgramState(int programIndex) throws ReadWriteException {
-        ProgramState programToPrint = programs.get(programIndex);
+    public void logProgramState(ProgramState programToLog){
         try{
             //
             PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
-            logFile.println(programToPrint.toString() + '\n');
+            logFile.println(programToLog.toString() + '\n');
             logFile.close();
         }
         catch (IOException error){
-            throw new ReadWriteException(error.getMessage());
+            System.out.println(error.getMessage());
+        }
+    }
+
+    public void logErrorMessage(String errorMsg) {
+        try {
+            PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(ERROR_LOG_FILE_PATH, false)));
+            logFile.println(errorMsg + '\n');
+            logFile.close();
+        }catch (IOException error){
+            System.out.println(error.getMessage());
         }
     }
 
     @Override
-    public void resetProgram(int index) {
-        programs.get(index).resetProgram();
+    public void resetAllPrograms() {
+        programs.forEach(ProgramState::resetProgram);
+    }
+
+    public void setProgramList(List<ProgramState> newProgramList){
+        this.programs = newProgramList;
     }
 }
