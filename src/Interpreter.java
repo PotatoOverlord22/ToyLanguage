@@ -157,6 +157,13 @@ public class Interpreter {
                 )
         );
 
+        IStatement threadsExample1 = new CompoundStatement(new VarDeclaration(new IntType(), "counter"), new CompoundStatement(
+                new VarDeclaration(new ReferenceType(new IntType()), "a"),
+                        new While(new RelationalExpression("<", new VarExpression("counter"), new ValueExpression(new IntValue(10))), new CompoundStatement(
+                                new Fork(new Fork(new CompoundStatement(
+                                        new HeapAllocation("a", new VarExpression("counter")), new PrintStatement(new HeapReadExpression(new VarExpression("a")))
+                                ))), new AssignStatement("counter", new ArithmeticExpression('+', new VarExpression("counter"),
+                                new ValueExpression(new IntValue(1))))))));
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the log file path: ");
         String logFilePath = scanner.next();
@@ -169,6 +176,7 @@ public class Interpreter {
         IRepository repository5 = new Repository(logFilePath, createProgram(program5));
         IRepository repository6 = new Repository(logFilePath, createProgram(program6));
         IRepository repository7 = new Repository(logFilePath, createProgram(threadsExample));
+        IRepository repository8 = new Repository(logFilePath, createProgram(threadsExample1));
         TextView view = new TextView();
 
         IController controller1 = new Controller(repository1);
@@ -191,8 +199,10 @@ public class Interpreter {
         view.addCommand(new RunProgramCommand("6", "{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}}", controller6));
 
         IController controller7 = new Controller(repository7);
-        view.addCommand(new RunProgramCommand("7", "", controller7));
+        view.addCommand(new RunProgramCommand("7", "{int v;{Reference(int) a;{v=10;{new(a, 22);{fork({heapWrite(a, 30);{v=32;{print(v);print(heapRead(a))}}});{print(v);print(heapRead(a))}}}}}}", controller7));
 
+        IController controller8 = new Controller(repository8);
+        view.addCommand(new RunProgramCommand("8", "", controller8));
 
         view.addCommand(new ExitCommand("0", "Exit"));
 
