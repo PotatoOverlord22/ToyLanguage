@@ -42,7 +42,7 @@ public class CloseReadFile implements IStatement{
         }
         // Remove the file from the file table
         state.getFileTable().remove(fileName);
-        return state;
+        return null;
     }
 
     @Override

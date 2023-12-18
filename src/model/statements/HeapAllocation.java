@@ -38,7 +38,7 @@ public class HeapAllocation implements IStatement{
         // Finally, attach the type of the evaluated expression to the appropriate variable in the symbol table
         state.getSymbolTable().put(varName, new ReferenceValue(state.getHeap().lastGeneratedAddress(), expValue.getType()));
 
-        return state;
+        return null;
     }
 
     @Override

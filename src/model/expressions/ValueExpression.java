@@ -2,6 +2,7 @@ package model.expressions;
 
 import model.adts.IMyDictionary;
 import model.adts.IMyHeap;
+import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.values.IValue;
 
@@ -18,7 +19,7 @@ public class ValueExpression implements IExpression{
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table, IMyHeap heap) throws EvaluationException {
+    public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
         return value;
     }
 

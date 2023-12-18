@@ -2,6 +2,7 @@ package model.expressions;
 
 import model.adts.IMyDictionary;
 import model.adts.IMyHeap;
+import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.values.IValue;
 import model.values.ReferenceValue;
@@ -15,7 +16,7 @@ public class HeapReadExpression implements IExpression{
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table, IMyHeap heap) throws EvaluationException {
+    public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
         // Check if the value is of reference value
         IValue expValue = expression.evaluate(table, heap);
         if (!(expValue instanceof ReferenceValue refValue))

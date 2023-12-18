@@ -2,6 +2,7 @@ package model.expressions;
 
 import model.adts.IMyDictionary;
 import model.adts.IMyHeap;
+import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.types.IntType;
@@ -24,7 +25,7 @@ public class RelationalExpression implements IExpression {
     }
 
     @Override
-    public IValue evaluate(IMyDictionary<String, IValue> table, IMyHeap heap) throws EvaluationException {
+    public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
         // Check if the operator given is implemented
         if(!isSupportedOperator(operator))
             throw new EvaluationException("Operator " + operator + " is not supported");

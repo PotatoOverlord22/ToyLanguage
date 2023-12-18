@@ -39,7 +39,7 @@ public class HeapWrite implements IStatement{
             throw new ExecutionException("Type mismatch between location type of " + varName + " and value " + expValue);
         // If we reached this point, then everything should be okay and ready to update the heap with the new value we got from evaluating our expression
         state.getHeap().changeValue(((ReferenceValue) varValue).getAddress(), expValue);
-        return state;
+        return null;
     }
 
     @Override
