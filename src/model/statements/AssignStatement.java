@@ -2,6 +2,7 @@ package model.statements;
 
 import model.ProgramState;
 import model.adts.IMyDictionary;
+import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.expressions.IExpression;
@@ -19,7 +20,7 @@ public class AssignStatement implements IStatement{
 
     @Override
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException {
-        IMyDictionary<String, IValue> symbolTable = state.getSymbolTable();
+        SymbolTable symbolTable = state.getSymbolTable();
         // Check if the variable is in the symbol table
         if (symbolTable.get(varId) == null)
             throw new ExecutionException("variable " + varId + " was not declared");
@@ -30,7 +31,7 @@ public class AssignStatement implements IStatement{
             throw new ExecutionException("mismatch between variable type " + varId + " and expression type " + assignedExpression.toString());
         // We found the variable in the table, we know the type match, now update the variable
         symbolTable.put(varId, value);
-        return state;
+        return null;
     }
 
     @Override

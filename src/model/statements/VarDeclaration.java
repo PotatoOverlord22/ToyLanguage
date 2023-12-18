@@ -2,6 +2,7 @@ package model.statements;
 
 import model.ProgramState;
 import model.adts.IMyDictionary;
+import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.types.IType;
@@ -18,12 +19,12 @@ public class VarDeclaration implements IStatement{
 
     @Override
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException {
-        IMyDictionary<String, IValue> symbolTable = state.getSymbolTable();
+        SymbolTable symbolTable = state.getSymbolTable();
         // Check if variable is already declared
         if (symbolTable.get(varId) != null)
             throw new ExecutionException("variable " + varId + " already declared");
         symbolTable.put(varId, varType.getDefaultValue());
-        return state;
+        return null;
     }
 
     @Override

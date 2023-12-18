@@ -7,7 +7,7 @@ import model.exceptions.ExecutionException;
 public class NopStatement implements IStatement{
     @Override
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException {
-        return state;
+        return null;
     }
 
     @Override

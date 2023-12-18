@@ -28,7 +28,7 @@ public class While implements IStatement{
             // Now we put the statement that needs to be executed, so that it is executed before the while (avoiding an infinite loop)
             state.getExecutionStack().push(statementToExecute);
         }
-        return state;
+        return null;
     }
 
     @Override

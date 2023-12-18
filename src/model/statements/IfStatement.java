@@ -33,7 +33,7 @@ public class IfStatement implements IStatement{
         }
         else
             exeStack.push(elseStatement);
-        return state;
+        return null;
     }
 
     @Override

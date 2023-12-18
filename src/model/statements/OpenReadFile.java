@@ -39,7 +39,7 @@ public class OpenReadFile implements IStatement{
         catch (FileNotFoundException error){
             throw new ExecutionException(error.getMessage());
         }
-        return state;
+        return null;
     }
 
     @Override

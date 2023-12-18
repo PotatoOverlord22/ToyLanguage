@@ -19,7 +19,7 @@ public class PrintStatement implements IStatement{
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException {
         IMyList<IValue> out = state.getOutput();
         out.add(expression.evaluate(state.getSymbolTable(), state.getHeap()));
-        return state;
+        return null;
     }
 
     @Override

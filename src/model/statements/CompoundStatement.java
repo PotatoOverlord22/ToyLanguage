@@ -19,7 +19,7 @@ public class CompoundStatement implements IStatement {
         IMyStack<IStatement> exeStack = state.getExecutionStack();
         exeStack.push(secondStatement);
         exeStack.push(firstStatement);
-        return state;
+        return null;
     }
 
     @Override

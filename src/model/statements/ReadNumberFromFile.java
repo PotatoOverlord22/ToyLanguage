@@ -66,7 +66,7 @@ public class ReadNumberFromFile implements IStatement {
         catch (IOException error){
             throw new ReadWriteException(error.getMessage());
         }
-        return state;
+        return null;
     }
 
     @Override
