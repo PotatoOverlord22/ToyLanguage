@@ -1,44 +1,55 @@
 package model.adts;
 
-import model.adts.IMyDictionary;
-
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MyDictionary<T, U> implements IMyDictionary<T, U> {
-    private Map<T, U> dict = new Hashtable<>();
+    private ConcurrentHashMap<T, U> map = new ConcurrentHashMap<>();
     @Override
     public U get(T key) {
-        return dict.get(key);
+        return map.get(key);
     }
 
     @Override
     public void put(T key, U value) {
-        dict.put(key, value);
+        map.put(key, value);
     }
 
     @Override
     public U remove(T key) {
-        return dict.remove(key);
+        return map.remove(key);
     }
 
     @Override
     public String toString() {
         String result = "";
-        for (T key : dict.keySet())
-            result += key.toString() + " => " + dict.get(key).toString() + '\n';
+        for (T key : map.keySet())
+            result += key.toString() + " => " + map.get(key).toString() + '\n';
         return result;
     }
 
     public Collection<U> values(){
-        return dict.values();
+        return map.values();
     }
 
     public Set<T> keys(){
-        return dict.keySet();
+        return map.keySet();
     }
 
     @Override
-    public Map<T, U> getContent() {
-        return dict;
+    public ConcurrentHashMap<T, U> getContent() {
+        return map;
+    }
+
+    @Override
+    public void setContent(ConcurrentHashMap<T, U> newContent) {
+        this.map = newContent;
+    }
+
+    @Override
+    public IMyDictionary<T, U> deepCopy() {
+        IMyDictionary<T, U> copy = new MyDictionary<>();
+        copy.setContent(map);
+        return copy;
     }
 }

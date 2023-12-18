@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public interface IMyDictionary<T, U> {
     void put(T key, U value);
@@ -16,5 +17,9 @@ public interface IMyDictionary<T, U> {
 
     Set<T> keys();
 
-    Map<T, U> getContent();
+    ConcurrentHashMap<T, U> getContent();
+
+    void setContent(ConcurrentHashMap<T,U> newContent);
+
+    IMyDictionary<T,U> deepCopy();
 }
