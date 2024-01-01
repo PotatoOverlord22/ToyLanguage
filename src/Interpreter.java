@@ -2,6 +2,7 @@ import controller.Controller;
 import controller.IController;
 import model.ProgramState;
 import model.adts.*;
+import model.exceptions.EvaluationException;
 import model.expressions.*;
 import model.statements.*;
 import model.types.BoolType;
@@ -22,15 +23,16 @@ import java.io.BufferedReader;
 import java.util.Scanner;
 
 public class Interpreter {
-    private static ProgramState createProgram(IStatement startingStatement){
+    private static ProgramState createProgram(IStatement startingStatement) {
         IMyStack<IStatement> executionStack = new MyStack<>();
         IMyList<IValue> output = new MyList<>();
         SymbolTable symbolTable = new SymbolTable();
         IMyDictionary<String, BufferedReader> fileTable = new MyDictionary<>();
         IMyHeap heap = new MyHeap();
 
-        return new ProgramState(executionStack, symbolTable, output, fileTable,startingStatement, heap);
+        return new ProgramState(executionStack, symbolTable, output, fileTable, startingStatement, heap);
     }
+
     public static void main(String[] args) {
         // In this part we add hard coded program entries and their meaning in a more understandable way
         /*
@@ -159,11 +161,11 @@ public class Interpreter {
 
         IStatement threadsExample1 = new CompoundStatement(new VarDeclaration(new IntType(), "counter"), new CompoundStatement(
                 new VarDeclaration(new ReferenceType(new IntType()), "a"),
-                        new While(new RelationalExpression("<", new VarExpression("counter"), new ValueExpression(new IntValue(10))), new CompoundStatement(
-                                new Fork(new Fork(new CompoundStatement(
-                                        new HeapAllocation("a", new VarExpression("counter")), new PrintStatement(new HeapReadExpression(new VarExpression("a")))
-                                ))), new AssignStatement("counter", new ArithmeticExpression('+', new VarExpression("counter"),
-                                new ValueExpression(new IntValue(1))))))));
+                new While(new RelationalExpression("<", new VarExpression("counter"), new ValueExpression(new IntValue(10))), new CompoundStatement(
+                        new Fork(new Fork(new CompoundStatement(
+                                new HeapAllocation("a", new VarExpression("counter")), new PrintStatement(new HeapReadExpression(new VarExpression("a")))
+                        ))), new AssignStatement("counter", new ArithmeticExpression('+', new VarExpression("counter"),
+                        new ValueExpression(new IntValue(1))))))));
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the log file path: ");
         String logFilePath = scanner.next();
@@ -177,6 +179,20 @@ public class Interpreter {
         IRepository repository6 = new Repository(logFilePath, createProgram(program6));
         IRepository repository7 = new Repository(logFilePath, createProgram(threadsExample));
         IRepository repository8 = new Repository(logFilePath, createProgram(threadsExample1));
+        try {
+            program1.typeCheck(new MyDictionary<>());
+            program2.typeCheck(new MyDictionary<>());
+            program3.typeCheck(new MyDictionary<>());
+            program4.typeCheck(new MyDictionary<>());
+            program5.typeCheck(new MyDictionary<>());
+            program6.typeCheck(new MyDictionary<>());
+            threadsExample.typeCheck(new MyDictionary<>());
+            threadsExample1.typeCheck(new MyDictionary<>());
+        } catch (EvaluationException evaluationException) {
+            repository1.logErrorMessage(evaluationException.getMessage());
+        }
+
+
         TextView view = new TextView();
 
         IController controller1 = new Controller(repository1);
