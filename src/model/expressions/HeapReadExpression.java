@@ -4,6 +4,8 @@ import model.adts.IMyDictionary;
 import model.adts.IMyHeap;
 import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
+import model.types.IType;
+import model.types.ReferenceType;
 import model.values.IValue;
 import model.values.ReferenceValue;
 
@@ -26,6 +28,15 @@ public class HeapReadExpression implements IExpression{
             throw new EvaluationException("The address " + refValue.getAddress() + " is not in the heap");
         // Return the value from the specified heap address
         return heap.get(refValue.getAddress());
+    }
+
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType expressionType;
+        expressionType = expression.typeCheck(typeEnvironment);
+        if (!(expressionType instanceof ReferenceType referenceType))
+            throw new EvaluationException("Expression " + expression + " not of Reference Type");
+        return referenceType.getInner();
     }
 
     @Override

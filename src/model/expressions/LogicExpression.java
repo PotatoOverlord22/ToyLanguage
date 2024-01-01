@@ -5,6 +5,7 @@ import model.adts.IMyHeap;
 import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.types.BoolType;
+import model.types.IType;
 import model.values.BoolValue;
 import model.values.IValue;
 
@@ -30,9 +31,6 @@ public class LogicExpression implements IExpression {
         IValue firstIValue, secondIValue;
         firstIValue = firstExpression.evaluate(table, heap);
         secondIValue = secondExpression.evaluate(table, heap);
-        // Check type compatibility
-        if (!isCompatible(firstIValue, secondIValue))
-            throw new EvaluationException("operands are incompatible");
 
         boolean firstBoolean = ((BoolValue) firstIValue).getValue();
         boolean secondBoolean = ((BoolValue) secondIValue).getValue();
@@ -42,15 +40,19 @@ public class LogicExpression implements IExpression {
 
     }
 
-    private boolean isCompatible(IValue first, IValue second){
-        // Check if both are IntTypes
-        if (!first.getType().equals(new BoolType()))
-            return false;
-        if (!second.getType().equals(new BoolType()))
-            return false;
-        return true;
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType type1, type2;
+        // get the types of the expressions
+        type1 = firstExpression.typeCheck(typeEnvironment);
+        type2 = secondExpression.typeCheck(typeEnvironment);
+        // both expressions must be of bool type
+        if (!type1.equals(new BoolType()))
+            throw new EvaluationException("First operand " + firstExpression + " is not of boolean type");
+        if (!type2.equals(new BoolType()))
+            throw new EvaluationException("Second operand " + secondExpression + " is not of boolean type");
+        return new BoolType();
     }
-
     private BoolValue computeOperation(char operator, boolean first, boolean second) throws EvaluationException {
         if (operator == '&')
             return new BoolValue(first && second);

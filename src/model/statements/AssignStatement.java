@@ -35,6 +35,17 @@ public class AssignStatement implements IStatement{
     }
 
     @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        // Get the types of both the variable and the expression
+        IType variableType = typeEnvironment.get(varId);
+        IType expressionType = assignedExpression.typeCheck(typeEnvironment);
+        // They should have the same type
+        if (!(variableType.equals(expressionType)))
+            throw new EvaluationException("Assignment between variable " + varId + " and expression " + assignedExpression + " is not compatible because of different types");
+        return typeEnvironment;
+    }
+
+    @Override
     public IStatement deepCopy() {
         return new AssignStatement(varId, assignedExpression.deepCopy());
     }

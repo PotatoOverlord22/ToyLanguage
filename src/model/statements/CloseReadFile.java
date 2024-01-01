@@ -1,10 +1,12 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.expressions.IExpression;
+import model.types.IType;
 import model.types.StringType;
 import model.values.IValue;
 import model.values.StringValue;
@@ -43,6 +45,15 @@ public class CloseReadFile implements IStatement{
         // Remove the file from the file table
         state.getFileTable().remove(fileName);
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType expressionType = expression.typeCheck(typeEnvironment);
+        // The type of expression should be string (file paths are strings)
+        if (!expressionType.equals(new StringType()))
+            throw new EvaluationException("Close read file: expression " + expression + " is not of string type");
+        return typeEnvironment;
     }
 
     @Override

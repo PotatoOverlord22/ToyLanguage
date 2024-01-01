@@ -1,8 +1,6 @@
 package model.adts;
 
 import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,5 +19,5 @@ public interface IMyDictionary<T, U> {
 
     void setContent(ConcurrentHashMap<T,U> newContent);
 
-    IMyDictionary<T,U> deepCopy();
+    IMyDictionary<T,U> copy();
 }

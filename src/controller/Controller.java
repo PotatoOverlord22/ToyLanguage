@@ -2,6 +2,7 @@ package controller;
 
 import model.ProgramState;
 import model.adts.*;
+import model.exceptions.EvaluationException;
 import model.values.IValue;
 import model.values.ReferenceValue;
 import repository.IRepository;
@@ -39,7 +40,7 @@ public class Controller implements IController{
                 try{
                     return future.get();
                 }
-                catch (java.util.concurrent.ExecutionException| InterruptedException exception){
+                catch (java.util.concurrent.ExecutionException | InterruptedException exception){
                     repository.logErrorMessage(exception.getMessage());
                 }
                 return null;

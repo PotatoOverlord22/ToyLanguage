@@ -10,7 +10,7 @@ public class ReferenceType implements IType{
         inner = referredType;
     }
 
-    IType getInner(){
+    public IType getInner(){
         return inner;
     }
     @Override

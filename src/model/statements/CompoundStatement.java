@@ -1,9 +1,11 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.adts.IMyStack;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
+import model.types.IType;
 
 public class CompoundStatement implements IStatement {
     private final IStatement firstStatement;
@@ -20,6 +22,11 @@ public class CompoundStatement implements IStatement {
         exeStack.push(secondStatement);
         exeStack.push(firstStatement);
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        return secondStatement.typeCheck(firstStatement.typeCheck(typeEnvironment));
     }
 
     @Override

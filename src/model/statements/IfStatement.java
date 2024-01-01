@@ -1,11 +1,13 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.adts.IMyStack;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.expressions.IExpression;
 import model.types.BoolType;
+import model.types.IType;
 import model.values.BoolValue;
 import model.values.IValue;
 
@@ -34,6 +36,16 @@ public class IfStatement implements IStatement{
         else
             exeStack.push(elseStatement);
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType conditionType = ifExpression.typeCheck(typeEnvironment);
+        if (!conditionType.equals(new BoolType()))
+            throw new EvaluationException("Condition " + ifExpression + " is not of bool type");
+        thenStatement.typeCheck(typeEnvironment.copy());
+        elseStatement.typeCheck(typeEnvironment.copy());
+        return typeEnvironment;
     }
 
     @Override

@@ -28,6 +28,12 @@ public class VarDeclaration implements IStatement{
     }
 
     @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        typeEnvironment.put(varId, varType);
+        return typeEnvironment;
+    }
+
+    @Override
     public IStatement deepCopy() {
         return new VarDeclaration(varType, varId);
     }

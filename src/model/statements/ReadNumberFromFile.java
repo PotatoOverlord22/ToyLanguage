@@ -1,10 +1,12 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.expressions.IExpression;
+import model.types.IType;
 import model.types.IntType;
 import model.types.StringType;
 import model.values.IValue;
@@ -67,6 +69,19 @@ public class ReadNumberFromFile implements IStatement {
             throw new ReadWriteException(error.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType variableType = typeEnvironment.get(varName);
+        IType expressionType = expression.typeCheck(typeEnvironment);
+        // The type of expression should be string (file paths are strings)
+        if (!expressionType.equals(new StringType()))
+            throw new EvaluationException("Expression " + expression + " is not of string type");
+        // Variable should be int type
+        if (!variableType.equals(new IntType()))
+            throw new EvaluationException("Variable " + varName + " is not of int type");
+        return typeEnvironment;
     }
 
     @Override

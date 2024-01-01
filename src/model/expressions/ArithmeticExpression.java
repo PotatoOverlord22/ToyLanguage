@@ -4,6 +4,7 @@ import model.adts.IMyDictionary;
 import model.adts.IMyHeap;
 import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
+import model.types.IType;
 import model.types.IntType;
 import model.values.IValue;
 import model.values.IntValue;
@@ -30,9 +31,6 @@ public class ArithmeticExpression implements IExpression {
         IValue firstIValue, secondIValue;
         firstIValue = firstExpression.evaluate(table, heap);
         secondIValue = secondExpression.evaluate(table, heap);
-        //Check type compatibility
-        if(!isCompatible(firstIValue, secondIValue))
-            throw new EvaluationException("operands are incompatible");
 
         int firstInteger = ((IntValue) firstIValue).getValue();
         int secondInteger = ((IntValue) secondIValue).getValue();
@@ -40,14 +38,20 @@ public class ArithmeticExpression implements IExpression {
         return computeOperation(operator, firstInteger, secondInteger);
     }
 
-    private boolean isCompatible(IValue first, IValue second){
-        // Check if both are IntTypes
-        if (!first.getType().equals(new IntType()))
-            return false;
-        if (!second.getType().equals(new IntType()))
-            return false;
-        return true;
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType type1, type2;
+        // get the types of the expressions
+        type1 = firstExpression.typeCheck(typeEnvironment);
+        type2 = secondExpression.typeCheck(typeEnvironment);
+        // check if the types are int
+        if (!type1.equals(new IntType()))
+            throw new EvaluationException("First operand " + firstExpression + " is not an integer");
+        if (!type2.equals(new IntType()))
+            throw new EvaluationException("Second operand " + secondExpression + " is not an integer");
+        return new IntType();
     }
+
     private IntValue computeOperation(char operator, int first, int second) throws EvaluationException{
         if (operator == '+') return new IntValue(first + second);
         else if (operator == '-') return new IntValue(first - second);

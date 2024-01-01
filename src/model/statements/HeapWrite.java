@@ -1,10 +1,12 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.expressions.IExpression;
+import model.types.IType;
 import model.types.ReferenceType;
 import model.values.IValue;
 import model.values.ReferenceValue;
@@ -40,6 +42,16 @@ public class HeapWrite implements IStatement{
         // If we reached this point, then everything should be okay and ready to update the heap with the new value we got from evaluating our expression
         state.getHeap().changeValue(((ReferenceValue) varValue).getAddress(), expValue);
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType variableType = typeEnvironment.get(varName);
+        IType expressionType = expression.typeCheck(typeEnvironment);
+        // Variable type should be a reference type referencing a type that the expression should evaluate to
+        if (!variableType.equals(new ReferenceType(expressionType)))
+            throw new EvaluationException("Heap write: left side " + varName + " and right side " + expression + " have different types");
+        return typeEnvironment;
     }
 
     @Override

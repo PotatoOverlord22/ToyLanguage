@@ -1,10 +1,13 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.expressions.IExpression;
+import model.types.BoolType;
+import model.types.IType;
 import model.values.BoolValue;
 
 public class While implements IStatement{
@@ -29,6 +32,17 @@ public class While implements IStatement{
             state.getExecutionStack().push(statementToExecute);
         }
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        // The type of the condition should be of bool type
+        IType conditionType = condition.typeCheck(typeEnvironment);
+        if (!conditionType.equals(new BoolType()))
+            throw new EvaluationException("Condition " + condition + " is not of bool type");
+        // Send a copy because the typeEnvironment should not be modified between while loops (e.g Var declaration should not persist between iterations)
+        statementToExecute.typeCheck(typeEnvironment.copy());
+        return typeEnvironment;
     }
 
     @Override

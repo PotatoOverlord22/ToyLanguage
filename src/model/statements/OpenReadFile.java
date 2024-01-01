@@ -1,9 +1,11 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.expressions.IExpression;
+import model.types.IType;
 import model.types.StringType;
 import model.values.IValue;
 import model.values.StringValue;
@@ -40,6 +42,15 @@ public class OpenReadFile implements IStatement{
             throw new ExecutionException(error.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType expressionType = expression.typeCheck(typeEnvironment);
+        // The type of expression should be string (file paths are strings)
+        if (!expressionType.equals(new StringType()))
+            throw new EvaluationException("Open read file: expression " + expression + " is not of string type");
+        return typeEnvironment;
     }
 
     @Override

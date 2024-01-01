@@ -1,10 +1,12 @@
 package model.statements;
 
 import model.ProgramState;
+import model.adts.IMyDictionary;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.expressions.IExpression;
+import model.types.IType;
 import model.types.ReferenceType;
 import model.values.IValue;
 import model.values.ReferenceValue;
@@ -39,6 +41,16 @@ public class HeapAllocation implements IStatement{
         state.getSymbolTable().put(varName, new ReferenceValue(state.getHeap().lastGeneratedAddress(), expValue.getType()));
 
         return null;
+    }
+
+    @Override
+    public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType variableType = typeEnvironment.get(varName);
+        IType expressionType = expression.typeCheck(typeEnvironment);
+        // Variable type should be a reference type referencing a type that the expression should evaluate to
+        if (!variableType.equals(new ReferenceType(expressionType)))
+            throw new EvaluationException("Heap allocation: left side " + varName + " and right side " + expression + " have different types");
+        return typeEnvironment;
     }
 
     @Override

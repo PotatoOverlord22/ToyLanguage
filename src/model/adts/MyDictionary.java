@@ -47,7 +47,7 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
     }
 
     @Override
-    public IMyDictionary<T, U> deepCopy() {
+    public IMyDictionary<T, U> copy() {
         IMyDictionary<T, U> copy = new MyDictionary<>();
         copy.setContent(map);
         return copy;

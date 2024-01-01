@@ -12,7 +12,6 @@ import java.util.List;
 
 public class Repository implements IRepository {
     private List<ProgramState> programs;
-    private final String ERROR_LOG_FILE_PATH = "src/src/errors.txt";
 
     private final String logFilePath;
 
@@ -47,7 +46,7 @@ public class Repository implements IRepository {
 
     public void logErrorMessage(String errorMsg) {
         try {
-            PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(ERROR_LOG_FILE_PATH, false)));
+            PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, false)));
             logFile.println(errorMsg + '\n');
             logFile.close();
         }catch (IOException error){

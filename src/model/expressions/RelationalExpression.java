@@ -5,6 +5,7 @@ import model.adts.IMyHeap;
 import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
+import model.types.IType;
 import model.types.IntType;
 import model.values.BoolValue;
 import model.values.IValue;
@@ -26,49 +27,45 @@ public class RelationalExpression implements IExpression {
 
     @Override
     public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
-        // Check if the operator given is implemented
-        if(!isSupportedOperator(operator))
-            throw new EvaluationException("Operator " + operator + " is not supported");
-        // Check if both the expressions evaluate to integers
+        // Evaluate both expressions
         IValue firstValue = firstExpression.evaluate(table, heap);
         IValue secondValue = secondExpression.evaluate(table, heap);
-        // Both values must be of integer type, otherwise throw exception
-        if (!(firstValue.getType().equals(new IntType()) && secondValue.getType().equals(new IntType())))
-            throw new EvaluationException("Expression " + firstExpression + " and/or expression " + secondExpression + " don't meet the required expression type");
 
+        // Get the raw int from the values
         int firstInt = ((IntValue) firstValue).getValue();
         int secondInt = ((IntValue) secondValue).getValue();
-        if (operator.equals("=="))
-            return new BoolValue(firstInt == secondInt);
-        if (operator.equals("<"))
-            return new BoolValue(firstInt < secondInt);
-        if (operator.equals(">"))
-            return new BoolValue(firstInt > secondInt);
-        if (operator.equals("!="))
-            return new BoolValue(firstInt != secondInt);
-        if (operator.equals("<="))
-            return new BoolValue(firstInt <= secondInt);
-        if (operator.equals(">="))
-            return new BoolValue(firstInt >= secondInt);
-
-        // If this is thrown, then there is something wrong in the function's logic.
-        throw new EvaluationException("Something broke, check the evaluation of relational expression.");
+        // Compute the relation between the ints
+        return computeRelation(operator, firstInt, secondInt);
+    }
+    @Override
+    public IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
+        IType type1, type2;
+        // get the types of the expressions
+        type1 = firstExpression.typeCheck(typeEnvironment);
+        type2 = secondExpression.typeCheck(typeEnvironment);
+        // both expressions must be of IntType
+        if (!type1.equals(new IntType()))
+            throw new EvaluationException("First operand " + firstExpression + " is not of Int Type");
+        if (!type2.equals(new IntType()))
+            throw new EvaluationException("Second operand " + secondExpression + " is not of Int Type");
+        return new IntType();
     }
 
-    private boolean isSupportedOperator(String operator){
+    private BoolValue computeRelation(String operator, int first, int second) throws EvaluationException{
         if (Objects.equals(operator, "=="))
-            return true;
-        if (Objects.equals(operator, "<"))
-            return true;
-        if (Objects.equals(operator, "<="))
-            return true;
-        if (Objects.equals(operator, ">"))
-            return true;
-        if (Objects.equals(operator, ">="))
-            return true;
-        if (Objects.equals(operator, "!="))
-            return true;
-        return false;
+            return new BoolValue(first == second);
+        else if (Objects.equals(operator, "<"))
+            return new BoolValue(first < second);
+        else if (Objects.equals(operator, "<="))
+            return new BoolValue(first <= second);
+        else if (Objects.equals(operator, ">"))
+            return new BoolValue(first > second);
+        else if (Objects.equals(operator, ">="))
+            return new BoolValue(first >= second);
+        else if (Objects.equals(operator, "!="))
+            return new BoolValue(first != second);
+        else
+            throw new EvaluationException("Operator " + operator + " not supported");
     }
     @Override
     public IExpression deepCopy() {
