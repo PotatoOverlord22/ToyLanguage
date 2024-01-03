@@ -1,10 +1,10 @@
 package model.adts;
 
-public class MyPair<T, U> implements IMyPair<T, U>{
+public class MyPair<T, U> implements IMyPair<T, U> {
     private T first;
     private U second;
 
-    public MyPair(T first, U second){
+    public MyPair(T first, U second) {
         this.first = first;
         this.second = second;
     }

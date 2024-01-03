@@ -10,7 +10,7 @@ import model.values.IValue;
 public interface IExpression {
     IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException;
 
-    IType typeCheck(IMyDictionary<String,IType> typeEnvironment) throws EvaluationException;
+    IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException;
 
     IExpression deepCopy();
 }

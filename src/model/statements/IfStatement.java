@@ -11,12 +11,12 @@ import model.types.IType;
 import model.values.BoolValue;
 import model.values.IValue;
 
-public class IfStatement implements IStatement{
+public class IfStatement implements IStatement {
     private final IExpression ifExpression;
     private final IStatement thenStatement;
     private final IStatement elseStatement;
 
-    public IfStatement(IExpression ifExpression, IStatement thenStatement, IStatement elseStatement){
+    public IfStatement(IExpression ifExpression, IStatement thenStatement, IStatement elseStatement) {
         this.ifExpression = ifExpression;
         this.thenStatement = thenStatement;
         this.elseStatement = elseStatement;
@@ -30,10 +30,9 @@ public class IfStatement implements IStatement{
             throw new ExecutionException("condition in if statement " + ifExpression.toString() + " is not boolean");
         IMyStack<IStatement> exeStack = state.getExecutionStack();
         // If expression is true
-        if (condition.equals(new BoolValue(true))){
+        if (condition.equals(new BoolValue(true))) {
             exeStack.push(thenStatement);
-        }
-        else
+        } else
             exeStack.push(elseStatement);
         return null;
     }

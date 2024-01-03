@@ -9,38 +9,39 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SymbolTable {
     private ConcurrentHashMap<String, IValue> map = new ConcurrentHashMap<String, IValue>();
-    public void put(String key, IValue value){
+
+    public void put(String key, IValue value) {
         map.put(key, value);
     }
 
-    public IValue get(String key){
+    public IValue get(String key) {
         return map.get(key);
     }
 
-    public IValue remove(String key){
+    public IValue remove(String key) {
         return map.remove(key);
     }
 
-    public Collection<IValue> values(){
+    public Collection<IValue> values() {
         return map.values();
     }
 
-    public Set<String> keys(){
+    public Set<String> keys() {
         return map.keySet();
     }
 
-    public ConcurrentHashMap<String, IValue> getContent(){
+    public ConcurrentHashMap<String, IValue> getContent() {
         return map;
     }
 
-    public void setContent(ConcurrentHashMap<String, IValue> newContent){
+    public void setContent(ConcurrentHashMap<String, IValue> newContent) {
         map = newContent;
     }
 
-    public SymbolTable deepCopy(){
+    public SymbolTable deepCopy() {
         SymbolTable copy = new SymbolTable();
         ConcurrentHashMap<String, IValue> content = new ConcurrentHashMap<>();
-        for (Map.Entry<String, IValue> entry : map.entrySet()){
+        for (Map.Entry<String, IValue> entry : map.entrySet()) {
             content.put(entry.getKey(), entry.getValue().deepCopy());
         }
         copy.setContent(content);

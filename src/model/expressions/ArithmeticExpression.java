@@ -52,7 +52,7 @@ public class ArithmeticExpression implements IExpression {
         return new IntType();
     }
 
-    private IntValue computeOperation(char operator, int first, int second) throws EvaluationException{
+    private IntValue computeOperation(char operator, int first, int second) throws EvaluationException {
         if (operator == '+') return new IntValue(first + second);
         else if (operator == '-') return new IntValue(first - second);
         else if (operator == '*') return new IntValue(first * second);

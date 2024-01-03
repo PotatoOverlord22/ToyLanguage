@@ -32,14 +32,13 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public void logProgramState(ProgramState programToLog){
-        try{
+    public void logProgramState(ProgramState programToLog) {
+        try {
             //
             PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)));
             logFile.println(programToLog.toString() + '\n');
             logFile.close();
-        }
-        catch (IOException error){
+        } catch (IOException error) {
             System.out.println(error.getMessage());
         }
     }
@@ -49,7 +48,7 @@ public class Repository implements IRepository {
             PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, false)));
             logFile.println(errorMsg + '\n');
             logFile.close();
-        }catch (IOException error){
+        } catch (IOException error) {
             System.out.println(error.getMessage());
         }
     }
@@ -59,7 +58,7 @@ public class Repository implements IRepository {
         programs.forEach(ProgramState::resetProgram);
     }
 
-    public void setProgramList(List<ProgramState> newProgramList){
+    public void setProgramList(List<ProgramState> newProgramList) {
         this.programs = newProgramList;
     }
 }

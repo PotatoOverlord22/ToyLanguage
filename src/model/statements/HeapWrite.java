@@ -11,12 +11,12 @@ import model.types.ReferenceType;
 import model.values.IValue;
 import model.values.ReferenceValue;
 
-public class HeapWrite implements IStatement{
+public class HeapWrite implements IStatement {
     // TODO: write tests
     private final String varName;
     private final IExpression expression;
 
-    public HeapWrite(String varName, IExpression expression){
+    public HeapWrite(String varName, IExpression expression) {
         this.varName = varName;
         this.expression = expression;
     }

@@ -9,11 +9,11 @@ import model.expressions.IExpression;
 import model.types.IType;
 import model.values.IValue;
 
-public class AssignStatement implements IStatement{
+public class AssignStatement implements IStatement {
     private final String varId;
     private final IExpression assignedExpression;
 
-    public AssignStatement(String varId, IExpression expressionToBeAssigned){
+    public AssignStatement(String varId, IExpression expressionToBeAssigned) {
         this.varId = varId;
         assignedExpression = expressionToBeAssigned;
     }

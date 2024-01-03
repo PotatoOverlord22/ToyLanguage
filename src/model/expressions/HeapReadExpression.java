@@ -9,11 +9,11 @@ import model.types.ReferenceType;
 import model.values.IValue;
 import model.values.ReferenceValue;
 
-public class HeapReadExpression implements IExpression{
+public class HeapReadExpression implements IExpression {
     // TODO: write tests
     private final IExpression expression;
 
-    public HeapReadExpression(IExpression expression){
+    public HeapReadExpression(IExpression expression) {
         this.expression = expression;
     }
 

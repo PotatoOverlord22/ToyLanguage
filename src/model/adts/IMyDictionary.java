@@ -17,7 +17,7 @@ public interface IMyDictionary<T, U> {
 
     ConcurrentHashMap<T, U> getContent();
 
-    void setContent(ConcurrentHashMap<T,U> newContent);
+    void setContent(ConcurrentHashMap<T, U> newContent);
 
-    IMyDictionary<T,U> copy();
+    IMyDictionary<T, U> copy();
 }

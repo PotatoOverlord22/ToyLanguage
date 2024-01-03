@@ -10,11 +10,11 @@ import model.types.BoolType;
 import model.types.IType;
 import model.values.BoolValue;
 
-public class While implements IStatement{
+public class While implements IStatement {
     private final IExpression condition;
     private final IStatement statementToExecute;
 
-    public While(IExpression condition, IStatement statementToExecute){
+    public While(IExpression condition, IStatement statementToExecute) {
         this.condition = condition;
         this.statementToExecute = statementToExecute;
     }
@@ -25,7 +25,7 @@ public class While implements IStatement{
         if (!(condition.evaluate(state.getSymbolTable(), state.getHeap()) instanceof BoolValue boolCondition))
             throw new ExecutionException("Condition " + condition + " does not evaluate to a Bool Value");
         // If the condition is true, then put on the execution stack the while statement again and the statement that needs to be executed
-        if (boolCondition.getValue()){
+        if (boolCondition.getValue()) {
             // Put the while statement again first
             state.getExecutionStack().push(this.deepCopy());
             // Now we put the statement that needs to be executed, so that it is executed before the while (avoiding an infinite loop)

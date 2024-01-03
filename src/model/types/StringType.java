@@ -3,8 +3,9 @@ package model.types;
 import model.values.IValue;
 import model.values.StringValue;
 
-public class StringType implements IType{
+public class StringType implements IType {
     private static final String DEFAULT_VALUE = "";
+
     @Override
     public IType deepCopy() {
         return new StringType();

@@ -7,10 +7,10 @@ import model.exceptions.EvaluationException;
 import model.types.IType;
 import model.values.IValue;
 
-public class ValueExpression implements IExpression{
+public class ValueExpression implements IExpression {
     IValue value;
 
-    public ValueExpression(IValue value){
+    public ValueExpression(IValue value) {
         this.value = value;
     }
 

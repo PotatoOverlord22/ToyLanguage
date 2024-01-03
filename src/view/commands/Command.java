@@ -10,11 +10,11 @@ public abstract class Command {
 
     public abstract void execute();
 
-    public String getKey(){
+    public String getKey() {
         return key;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 }

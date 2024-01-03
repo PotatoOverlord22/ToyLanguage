@@ -22,7 +22,7 @@ public class LogicExpression implements IExpression {
     }
 
     @Override
-    public IExpression deepCopy(){
+    public IExpression deepCopy() {
         return new LogicExpression(operator, firstExpression.deepCopy(), secondExpression.deepCopy());
     }
 
@@ -53,6 +53,7 @@ public class LogicExpression implements IExpression {
             throw new EvaluationException("Second operand " + secondExpression + " is not of boolean type");
         return new BoolType();
     }
+
     private BoolValue computeOperation(char operator, boolean first, boolean second) throws EvaluationException {
         if (operator == '&')
             return new BoolValue(first && second);

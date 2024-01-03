@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MyListTest {
     private MyList<Integer> testList;
+
     @BeforeEach
     void setUp() {
         testList = new MyList<Integer>();
@@ -19,7 +20,7 @@ class MyListTest {
     }
 
     @Test
-    void testAdd(){
+    void testAdd() {
         testList.add(20);
         assertEquals(testList.get(0), 20);
     }

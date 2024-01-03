@@ -40,8 +40,8 @@ public class ProgramState {
         this.id = getNextId();
     }
 
-    public static int getNextId(){
-        synchronized (idLock){
+    public static int getNextId() {
+        synchronized (idLock) {
             return idCounter++;
         }
     }
@@ -109,7 +109,7 @@ public class ProgramState {
         this.heap = heap;
     }
 
-    public boolean isCompleted(){
+    public boolean isCompleted() {
         return executionStack.isEmpty();
     }
 

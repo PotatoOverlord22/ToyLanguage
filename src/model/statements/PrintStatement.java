@@ -9,11 +9,11 @@ import model.expressions.IExpression;
 import model.types.IType;
 import model.values.IValue;
 
-public class PrintStatement implements IStatement{
+public class PrintStatement implements IStatement {
     private final IExpression expression;
 
 
-    public PrintStatement(IExpression expressionToPrint){
+    public PrintStatement(IExpression expressionToPrint) {
         expression = expressionToPrint;
     }
 
@@ -23,6 +23,7 @@ public class PrintStatement implements IStatement{
         out.add(expression.evaluate(state.getSymbolTable(), state.getHeap()));
         return null;
     }
+
     @Override
     public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
         expression.typeCheck(typeEnvironment);
@@ -35,7 +36,7 @@ public class PrintStatement implements IStatement{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "print(" + expression.toString() + ")";
     }
 }

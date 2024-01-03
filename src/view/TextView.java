@@ -16,37 +16,37 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-public class TextView implements IView{
+public class TextView implements IView {
     private boolean stopView = false;
     private boolean showOnlyResult;
 
     private IMyDictionary<String, Command> commands;
 
-    public TextView(){
+    public TextView() {
         commands = new MyDictionary<>();
     }
 
-    public void addCommand(Command command){
+    public void addCommand(Command command) {
         commands.put(command.getKey(), command);
     }
+
     @Override
-    public void show(){
+    public void show() {
         Scanner scanner = new Scanner(System.in);
-        while(!stopView){
+        while (!stopView) {
             printMenu();
             System.out.print("Select which command to run: ");
             String key = scanner.nextLine();
             Command com = commands.get(key);
-            if (com == null){
+            if (com == null) {
                 System.out.println("Invalid option");
-            }
-            else
+            } else
                 com.execute();
         }
     }
 
-    private void printMenu(){
-        for (Command currentCommand : commands.values()){
+    private void printMenu() {
+        for (Command currentCommand : commands.values()) {
             String line = String.format("%4s : %s", currentCommand.getKey(), currentCommand.getDescription());
             System.out.println(line);
         }
@@ -56,7 +56,7 @@ public class TextView implements IView{
         this.showOnlyResult = showOnlyResult;
     }
 
-    public boolean getShowOnlyResult(){
+    public boolean getShowOnlyResult() {
         return showOnlyResult;
     }
 
@@ -64,7 +64,7 @@ public class TextView implements IView{
         this.stopView = stopView;
     }
 
-    public boolean getStopView(){
+    public boolean getStopView() {
         return stopView;
     }
 }

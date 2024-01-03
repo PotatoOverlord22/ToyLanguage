@@ -3,16 +3,17 @@ package model.types;
 import model.values.IValue;
 import model.values.ReferenceValue;
 
-public class ReferenceType implements IType{
+public class ReferenceType implements IType {
     private IType inner;
 
-    public ReferenceType(IType referredType){
+    public ReferenceType(IType referredType) {
         inner = referredType;
     }
 
-    public IType getInner(){
+    public IType getInner() {
         return inner;
     }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof ReferenceType)

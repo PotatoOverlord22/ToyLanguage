@@ -25,8 +25,8 @@ public class MyStack<T> implements IMyStack<T> {
     @Override
     public String toString() {
         String result = "";
-        for (T elem:
-             stack.reversed()) {
+        for (T elem :
+                stack.reversed()) {
             result += elem.toString() + "\n";
         }
         return result;

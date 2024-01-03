@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MyHeap implements IMyHeap{
+public class MyHeap implements IMyHeap {
     /*
         NOTE: This probably could be implemented a bit better with a list of empty locations in the heap such that
                 we don't need to iterate over all the occupied locations to find an empty one
@@ -15,7 +15,7 @@ public class MyHeap implements IMyHeap{
     // Keep track of the free location in our heap
     private int freeLocationIndex;
 
-    public MyHeap(){
+    public MyHeap() {
         freeLocationIndex = 1;
     }
 
@@ -46,7 +46,7 @@ public class MyHeap implements IMyHeap{
         return heap.remove(location);
     }
 
-    private int findFreeHeapLocation(){
+    private int findFreeHeapLocation() {
         /*
             NOTE: remove also moves the index to the new free location
          */

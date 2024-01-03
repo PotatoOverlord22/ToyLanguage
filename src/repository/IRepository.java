@@ -16,5 +16,5 @@ public interface IRepository {
     void resetAllPrograms();
 
     void logErrorMessage(String errorMsg);
-    
+
 }

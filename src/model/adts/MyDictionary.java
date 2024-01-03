@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MyDictionary<T, U> implements IMyDictionary<T, U> {
     private ConcurrentHashMap<T, U> map = new ConcurrentHashMap<>();
+
     @Override
     public U get(T key) {
         return map.get(key);
@@ -28,11 +29,11 @@ public class MyDictionary<T, U> implements IMyDictionary<T, U> {
         return result;
     }
 
-    public Collection<U> values(){
+    public Collection<U> values() {
         return map.values();
     }
 
-    public Set<T> keys(){
+    public Set<T> keys() {
         return map.keySet();
     }
 

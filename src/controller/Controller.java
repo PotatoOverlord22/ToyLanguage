@@ -17,15 +17,16 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Controller implements IController{
+public class Controller implements IController {
     private final IRepository repository;
     private ExecutorService executor;
 
-    public Controller (IRepository repository){
+    public Controller(IRepository repository) {
         this.repository = repository;
     }
+
     @Override
-    public void oneStepForAllPrograms(List<ProgramState> programList){
+    public void oneStepForAllPrograms(List<ProgramState> programList) {
         // First log the list of program states
         for (ProgramState program : programList) {
             repository.logProgramState(program);
@@ -37,10 +38,9 @@ public class Controller implements IController{
         try {
             // This list contains the newly created threads from the already running programs
             List<ProgramState> newProgramList = executor.invokeAll(callList).stream().map(future -> {
-                try{
+                try {
                     return future.get();
-                }
-                catch (java.util.concurrent.ExecutionException | InterruptedException exception){
+                } catch (java.util.concurrent.ExecutionException | InterruptedException exception) {
                     repository.logErrorMessage(exception.getMessage());
                 }
                 return null;
@@ -63,7 +63,7 @@ public class Controller implements IController{
         executor = Executors.newFixedThreadPool(2);
         // Remove completed programs
         List<ProgramState> programs = removeCompletedPrograms(repository.getProgramList());
-        while(!programs.isEmpty()){
+        while (!programs.isEmpty()) {
             oneStepForAllPrograms(programs);
             // Remove the completed programs after each step
             programs = removeCompletedPrograms(repository.getProgramList());
@@ -73,7 +73,7 @@ public class Controller implements IController{
         repository.setProgramList(programs);
     }
 
-    public IMyHeap garbageCollector(SymbolTable symbolTable, IMyHeap heap){
+    public IMyHeap garbageCollector(SymbolTable symbolTable, IMyHeap heap) {
         /*
 
          */
@@ -86,7 +86,7 @@ public class Controller implements IController{
         return newHeap;
     }
 
-    private List<Integer> getAddresses(Collection<IValue> collection){
+    private List<Integer> getAddresses(Collection<IValue> collection) {
         /*
             returns all the addresses from the elements that are Reference Values from a collection
          */

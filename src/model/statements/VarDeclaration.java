@@ -8,11 +8,11 @@ import model.exceptions.ExecutionException;
 import model.types.IType;
 import model.values.IValue;
 
-public class VarDeclaration implements IStatement{
+public class VarDeclaration implements IStatement {
     private final String varId;
     private final IType varType;
 
-    public VarDeclaration(IType varType, String varId){
+    public VarDeclaration(IType varType, String varId) {
         this.varType = varType;
         this.varId = varId;
     }

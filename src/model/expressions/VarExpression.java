@@ -7,12 +7,13 @@ import model.exceptions.EvaluationException;
 import model.types.IType;
 import model.values.IValue;
 
-public class VarExpression implements IExpression{
+public class VarExpression implements IExpression {
     String id;
 
-    public VarExpression(String varId){
+    public VarExpression(String varId) {
         id = varId;
     }
+
     @Override
     public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
         return table.get(id);

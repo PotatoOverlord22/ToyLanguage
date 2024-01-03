@@ -15,10 +15,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class OpenReadFile implements IStatement{
+public class OpenReadFile implements IStatement {
     private IExpression expression;
 
-    public OpenReadFile(IExpression expression){
+    public OpenReadFile(IExpression expression) {
         this.expression = expression;
     }
 
@@ -34,11 +34,10 @@ public class OpenReadFile implements IStatement{
             throw new ExecutionException("File name is already in the file table.");
 
         // Try to open the file and put it in the file table if successful
-        try{
+        try {
             BufferedReader fileDescriptor = new BufferedReader(new FileReader(fileName));
             state.getFileTable().put(fileName, fileDescriptor);
-        }
-        catch (FileNotFoundException error){
+        } catch (FileNotFoundException error) {
             throw new ExecutionException(error.getMessage());
         }
         return null;

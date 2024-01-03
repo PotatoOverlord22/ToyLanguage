@@ -4,11 +4,12 @@ import model.adts.SymbolTable;
 import model.values.BoolValue;
 import model.values.IntValue;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SymbolTableTest {
     @Test
-    public void deepCopyTest(){
+    public void deepCopyTest() {
         SymbolTable original = new SymbolTable();
         SymbolTable copy;
         original.put("v", new IntValue(2));

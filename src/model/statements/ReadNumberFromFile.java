@@ -21,7 +21,7 @@ public class ReadNumberFromFile implements IStatement {
 
     private String varName;
 
-    public ReadNumberFromFile(IExpression expression, String varName){
+    public ReadNumberFromFile(IExpression expression, String varName) {
         this.expression = expression;
         this.varName = varName;
     }
@@ -36,8 +36,8 @@ public class ReadNumberFromFile implements IStatement {
             throw new ExecutionException("Variable " + varName + " is not of IntType");
         IValue fileValue = expression.evaluate(state.getSymbolTable(), state.getHeap());
         // Check if the expression evaluates to a string type (we need a file name and that must be a string)
-        if(!fileValue.getType().equals(new StringType()))
-            throw  new ExecutionException("File name " + fileValue + "is not of StringType");
+        if (!fileValue.getType().equals(new StringType()))
+            throw new ExecutionException("File name " + fileValue + "is not of StringType");
         String fileName = ((StringValue) fileValue).getValue();
         // Check if the file is in the file table
         if (state.getFileTable().get(fileName) == null)
@@ -48,24 +48,22 @@ public class ReadNumberFromFile implements IStatement {
         if (fileDescriptor == null)
             throw new ExecutionException("File " + fileName + " has no associated file descriptor");
         // Try to read a line from the file and translate it into an int (if it's a null then the value is 0)
-        try{
+        try {
             String line = fileDescriptor.readLine();
             IntValue lineValue;
             if (line == null)
                 lineValue = new IntValue();
-            else{
+            else {
                 // parseInt method throws NumberFormatException if the line that has been read does not respect the format of an int
-                try{
+                try {
                     lineValue = new IntValue(Integer.parseInt(line));
-                }
-                catch (NumberFormatException error){
+                } catch (NumberFormatException error) {
                     throw new ExecutionException("Invalid number format");
                 }
             }
             // Update the variable with the new value read from the file
             state.getSymbolTable().put(varName, lineValue);
-        }
-        catch (IOException error){
+        } catch (IOException error) {
             throw new ReadWriteException(error.getMessage());
         }
         return null;

@@ -8,10 +8,10 @@ import model.exceptions.ExecutionException;
 import model.exceptions.ReadWriteException;
 import model.types.IType;
 
-public class Fork implements IStatement{
+public class Fork implements IStatement {
     private IStatement statement;
 
-    public Fork(IStatement statement){
+    public Fork(IStatement statement) {
         this.statement = statement;
     }
 

@@ -19,7 +19,7 @@ public class RelationalExpression implements IExpression {
 
     private String operator;
 
-    public RelationalExpression(String operator, IExpression firstExpression, IExpression secondExpression){
+    public RelationalExpression(String operator, IExpression firstExpression, IExpression secondExpression) {
         this.operator = operator;
         this.firstExpression = firstExpression;
         this.secondExpression = secondExpression;
@@ -37,6 +37,7 @@ public class RelationalExpression implements IExpression {
         // Compute the relation between the ints
         return computeRelation(operator, firstInt, secondInt);
     }
+
     @Override
     public IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
         IType type1, type2;
@@ -51,7 +52,7 @@ public class RelationalExpression implements IExpression {
         return new IntType();
     }
 
-    private BoolValue computeRelation(String operator, int first, int second) throws EvaluationException{
+    private BoolValue computeRelation(String operator, int first, int second) throws EvaluationException {
         if (Objects.equals(operator, "=="))
             return new BoolValue(first == second);
         else if (Objects.equals(operator, "<"))
@@ -67,6 +68,7 @@ public class RelationalExpression implements IExpression {
         else
             throw new EvaluationException("Operator " + operator + " not supported");
     }
+
     @Override
     public IExpression deepCopy() {
         return new RelationalExpression(operator, firstExpression.deepCopy(), secondExpression.deepCopy());

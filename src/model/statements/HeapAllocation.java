@@ -11,11 +11,11 @@ import model.types.ReferenceType;
 import model.values.IValue;
 import model.values.ReferenceValue;
 
-public class HeapAllocation implements IStatement{
+public class HeapAllocation implements IStatement {
     String varName;
     IExpression expression;
 
-    public HeapAllocation(String varName, IExpression expression){
+    public HeapAllocation(String varName, IExpression expression) {
         this.varName = varName;
         this.expression = expression;
     }
@@ -24,7 +24,7 @@ public class HeapAllocation implements IStatement{
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException, ReadWriteException {
         // Check if the variable varName is in the symbol table
         IValue varValue = state.getSymbolTable().get(varName);
-        if(varValue == null)
+        if (varValue == null)
             throw new ExecutionException("Variable " + varName + " is not defined in the symbol table");
         // Check if the type of the variable is of reference type
         if (!(varValue.getType() instanceof ReferenceType))
