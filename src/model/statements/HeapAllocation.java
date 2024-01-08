@@ -46,6 +46,8 @@ public class HeapAllocation implements IStatement {
     @Override
     public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
         IType variableType = typeEnvironment.get(varName);
+        if (variableType == null)
+            throw new EvaluationException("Variable " + varName + " does not exist");
         IType expressionType = expression.typeCheck(typeEnvironment);
         // Variable type should be a reference type referencing a type that the expression should evaluate to
         if (!variableType.equals(new ReferenceType(expressionType)))

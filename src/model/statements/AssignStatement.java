@@ -38,6 +38,8 @@ public class AssignStatement implements IStatement {
     public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
         // Get the types of both the variable and the expression
         IType variableType = typeEnvironment.get(varId);
+        if (variableType == null)
+            throw new EvaluationException("Variable " + varId + " does not exist");
         IType expressionType = assignedExpression.typeCheck(typeEnvironment);
         // They should have the same type
         if (!(variableType.equals(expressionType)))

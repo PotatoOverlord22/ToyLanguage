@@ -21,7 +21,10 @@ public class VarExpression implements IExpression {
 
     @Override
     public IType typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
-        return typeEnvironment.get(id);
+        IType variableType = typeEnvironment.get(id);
+        if (variableType == null)
+            throw new EvaluationException("Variable " + id + " does not exist");
+        return variableType;
     }
 
     @Override

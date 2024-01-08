@@ -72,6 +72,8 @@ public class ReadNumberFromFile implements IStatement {
     @Override
     public IMyDictionary<String, IType> typeCheck(IMyDictionary<String, IType> typeEnvironment) throws EvaluationException {
         IType variableType = typeEnvironment.get(varName);
+        if (variableType == null)
+            throw new EvaluationException("Variable " + varName + " does not exist");
         IType expressionType = expression.typeCheck(typeEnvironment);
         // The type of expression should be string (file paths are strings)
         if (!expressionType.equals(new StringType()))
