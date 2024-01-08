@@ -3,6 +3,7 @@ import controller.IController;
 import model.ProgramState;
 import model.adts.*;
 import model.exceptions.EvaluationException;
+import model.exceptions.ExecutionException;
 import model.expressions.*;
 import model.statements.*;
 import model.types.BoolType;
@@ -34,6 +35,12 @@ public class Interpreter {
     }
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the log file path: ");
+        String logFilePath = scanner.next();
+        System.out.println();
+        TextView view = new TextView();
+
         // In this part we add hard coded program entries and their meaning in a more understandable way
         /*
                 Program 1:
@@ -44,6 +51,17 @@ public class Interpreter {
         IStatement program1 = new CompoundStatement(new VarDeclaration(new IntType(), "v"), new
                 CompoundStatement(new AssignStatement("v", new ValueExpression(new IntValue(2))),
                 new PrintStatement(new VarExpression("v"))));
+
+        try{
+            program1.typeCheck(new MyDictionary<>());
+            IRepository repository1 = new Repository(logFilePath, createProgram(program1));
+            IController controller1 = new Controller(repository1);
+            view.addCommand(new RunProgramCommand("1", "\n\tint v;\n\tv=2;\n\tPrint(v)", controller1));
+
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
 
         /*
                 Program 2:
@@ -65,6 +83,16 @@ public class Interpreter {
                                 new AssignStatement("z", new ArithmeticExpression('/', new VarExpression("x"),
                                         new VarExpression("y"))), new PrintStatement(new VarExpression("z")))
                         )))));
+
+        try{
+            program2.typeCheck(new MyDictionary<>());
+            IRepository repository2 = new Repository(logFilePath, createProgram(program2));
+            IController controller2 = new Controller(repository2);
+            view.addCommand(new RunProgramCommand("2", "\n\tint x;\n\tint y;\n\tx = 2*3 + 3;\n\ty = 6-3;\n\tint z;\n\tz = x / y;\n\tPrint(z)", controller2));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
         /*
                 Program 3:
             bool a;
@@ -80,6 +108,15 @@ public class Interpreter {
                         new AssignStatement("v", new ValueExpression(new IntValue(3)))), new PrintStatement(new VarExpression("v"))
         )
         )));
+        try{
+            program3.typeCheck(new MyDictionary<>());
+            IRepository repository3 = new Repository(logFilePath, createProgram(program3));
+            IController controller3 = new Controller(repository3);
+            view.addCommand(new RunProgramCommand("3", "\n\tbool a;\n\ta=false;\n\tint v;\n\tIf a Then v=2 Else v=3;\n\tPrint(v));", controller3));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
        /*
             Program 4:
             String varf;
@@ -101,6 +138,17 @@ public class Interpreter {
                 ))
         ))
         );
+        try{
+            program4.typeCheck(new MyDictionary<>());
+            IRepository repository4 = new Repository(logFilePath, createProgram(program4));
+            IController controller4 = new Controller(repository4);
+            view.addCommand(new RunProgramCommand("4", "\n\tString varf;\n\tvarf = test.in\n\topenRFile(varf);\n\tint varc;\n\treadFile(varf, varc);" +
+                    "\n\tprint(varc);\n\tcloseRFile(varf);", controller4));
+
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
 
 //        IStatement program4 = new CompoundStatement(new VarDeclaration(new StringType(), "varf"), new CompoundStatement(
 //                new AssignStatement("varf", new ValueExpression(new StringValue("src/logs/test.in"))), new CompoundStatement(new OpenReadFile(new VarExpression("varf")),
@@ -123,12 +171,18 @@ public class Interpreter {
              Print(a && b);
          */
 
-        IStatement program5 = new CompoundStatement(new VarDeclaration(new IntType(), "a"), new CompoundStatement(
-                new VarDeclaration(new BoolType(), "b"), new CompoundStatement(new AssignStatement("a", new ValueExpression(
-                new BoolValue(true)
-        )), new CompoundStatement(new AssignStatement("b", new ValueExpression(new BoolValue(false))),
-                new PrintStatement(new LogicExpression('&', new VarExpression("a"), new VarExpression("b")))))
-        ));
+        IStatement program5 = new CompoundStatement(new VarDeclaration(new IntType(), "a"), new AssignStatement("a", new ValueExpression(new IntValue(2))));
+
+        try{
+            program5.typeCheck(new MyDictionary<>());
+            IRepository repository5 = new Repository(logFilePath, createProgram(program5));
+            IController controller5 = new Controller(repository5);
+            view.addCommand(new RunProgramCommand("5", "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);", controller5));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
+
 
         IStatement program6 = new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "v"),
                 new CompoundStatement(new HeapAllocation("v", new ValueExpression(new IntValue(20))),
@@ -141,6 +195,15 @@ public class Interpreter {
                 )
 
         );
+        try{
+            program6.typeCheck(new MyDictionary<>());
+            IRepository repository6 = new Repository(logFilePath, createProgram(program6));
+            IController controller6 = new Controller(repository6);
+            view.addCommand(new RunProgramCommand("6", "{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}}", controller6));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
 
         IStatement threadsExample = new CompoundStatement(new VarDeclaration(new IntType(), "v"),
                 new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "a"),
@@ -158,6 +221,15 @@ public class Interpreter {
                         )
                 )
         );
+        try{
+            threadsExample.typeCheck(new MyDictionary<>());
+            IRepository repository7 = new Repository(logFilePath, createProgram(threadsExample));
+            IController controller7 = new Controller(repository7);
+            view.addCommand(new RunProgramCommand("7", "Threads example 1", controller7));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
 
         IStatement threadsExample1 = new CompoundStatement(new VarDeclaration(new IntType(), "counter"), new CompoundStatement(
                 new VarDeclaration(new ReferenceType(new IntType()), "a"),
@@ -166,59 +238,28 @@ public class Interpreter {
                                 new HeapAllocation("a", new VarExpression("counter")), new PrintStatement(new HeapReadExpression(new VarExpression("a")))
                         ))), new AssignStatement("counter", new ArithmeticExpression('+', new VarExpression("counter"),
                         new ValueExpression(new IntValue(1))))))));
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the log file path: ");
-        String logFilePath = scanner.next();
-        System.out.println();
-
-        IRepository repository1 = new Repository(logFilePath, createProgram(program1));
-        IRepository repository2 = new Repository(logFilePath, createProgram(program2));
-        IRepository repository3 = new Repository(logFilePath, createProgram(program3));
-        IRepository repository4 = new Repository(logFilePath, createProgram(program4));
-        IRepository repository5 = new Repository(logFilePath, createProgram(program5));
-        IRepository repository6 = new Repository(logFilePath, createProgram(program6));
-        IRepository repository7 = new Repository(logFilePath, createProgram(threadsExample));
-        IRepository repository8 = new Repository(logFilePath, createProgram(threadsExample1));
-        try {
-            program1.typeCheck(new MyDictionary<>());
-            program2.typeCheck(new MyDictionary<>());
-            program3.typeCheck(new MyDictionary<>());
-            program4.typeCheck(new MyDictionary<>());
-            program5.typeCheck(new MyDictionary<>());
-            program6.typeCheck(new MyDictionary<>());
-            threadsExample.typeCheck(new MyDictionary<>());
+        try{
             threadsExample1.typeCheck(new MyDictionary<>());
-        } catch (EvaluationException evaluationException) {
-            repository1.logErrorMessage(evaluationException.getMessage());
+            IRepository repository8 = new Repository(logFilePath, createProgram(threadsExample1));
+            IController controller8 = new Controller(repository8);
+            view.addCommand(new RunProgramCommand("8", "Threads example 2", controller8));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
         }
 
 
-        TextView view = new TextView();
+        IStatement typeCheckerFail = new CompoundStatement(new VarDeclaration(new IntType(), "v"), new AssignStatement("v", new ValueExpression(new BoolValue(false))));
 
-        IController controller1 = new Controller(repository1);
-        view.addCommand(new RunProgramCommand("1", "\n\tint v;\n\tv=2;\n\tPrint(v)", controller1));
-
-        IController controller2 = new Controller(repository2);
-        view.addCommand(new RunProgramCommand("2", "\n\tint x;\n\tint y;\n\tx = 2*3 + 3;\n\ty = 6-3;\n\tint z;\n\tz = x / y;\n\tPrint(z)", controller2));
-
-        IController controller3 = new Controller(repository3);
-        view.addCommand(new RunProgramCommand("3", "\n\tbool a;\n\ta=false;\n\tint v;\n\tIf a Then v=2 Else v=3;\n\tPrint(v));", controller3));
-
-        IController controller4 = new Controller(repository4);
-        view.addCommand(new RunProgramCommand("4", "\n\tString varf;\n\tvarf = test.in\n\topenRFile(varf);\n\tint varc;\n\treadFile(varf, varc);" +
-                "\n\tprint(varc);\n\tcloseRFile(varf);", controller4));
-
-        IController controller5 = new Controller(repository5);
-        view.addCommand(new RunProgramCommand("5", "\n\tbool a;\n\tbool b;\n\ta = true;\n\tb = false;\n\tPrint(a && b);", controller5));
-
-        IController controller6 = new Controller(repository6);
-        view.addCommand(new RunProgramCommand("6", "{Reference(int) v;{new(v, 20);{Reference(Reference(int)) a;{new(a, v);{new(v, 30);{print(heapRead(heapRead(a)));new(v, 90)}}}}}}", controller6));
-
-        IController controller7 = new Controller(repository7);
-        view.addCommand(new RunProgramCommand("7", "{int v;{Reference(int) a;{v=10;{new(a, 22);{fork({heapWrite(a, 30);{v=32;{print(v);print(heapRead(a))}}});{print(v);print(heapRead(a))}}}}}}", controller7));
-
-        IController controller8 = new Controller(repository8);
-        view.addCommand(new RunProgramCommand("8", "", controller8));
+        try{
+            typeCheckerFail.typeCheck(new MyDictionary<>());
+            IRepository repository9 = new Repository(logFilePath, createProgram(typeCheckerFail));
+            IController controller9 = new Controller(repository9);
+            view.addCommand(new RunProgramCommand("9", "Type checker should fail this one", controller9));
+        }
+        catch (EvaluationException exception){
+            System.out.println(exception.getMessage());
+        }
 
         view.addCommand(new ExitCommand("0", "Exit"));
 
