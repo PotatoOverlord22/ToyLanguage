@@ -5,6 +5,7 @@ import model.adts.IMyHeap;
 import model.adts.SymbolTable;
 import model.exceptions.EvaluationException;
 import model.exceptions.ExecutionException;
+import model.types.BoolType;
 import model.types.IType;
 import model.types.IntType;
 import model.values.BoolValue;
@@ -49,7 +50,7 @@ public class RelationalExpression implements IExpression {
             throw new EvaluationException("First operand " + firstExpression + " is not of Int Type");
         if (!type2.equals(new IntType()))
             throw new EvaluationException("Second operand " + secondExpression + " is not of Int Type");
-        return new IntType();
+        return new BoolType();
     }
 
     private BoolValue computeRelation(String operator, int first, int second) throws EvaluationException {
