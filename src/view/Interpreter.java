@@ -1,3 +1,5 @@
+package view;
+
 import controller.Controller;
 import controller.IController;
 import model.ProgramState;
@@ -205,7 +207,7 @@ public class Interpreter {
             System.out.println(exception.getMessage());
         }
 
-        IStatement threadsExample = new CompoundStatement(new VarDeclaration(new IntType(), "v"),
+        IStatement threadsExample = new CompoundStatement(new VarDeclaration(new BoolType(), "v"),
                 new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "a"),
                         new CompoundStatement(new AssignStatement("v", new ValueExpression(new IntValue(10))),
                                 new CompoundStatement(new HeapAllocation("a", new ValueExpression(new IntValue(22))),
@@ -249,7 +251,8 @@ public class Interpreter {
         }
 
 
-        IStatement typeCheckerFail = new CompoundStatement(new VarDeclaration(new IntType(), "v"), new AssignStatement("v", new ValueExpression(new BoolValue(false))));
+        IStatement typeCheckerFail = new CompoundStatement(new VarDeclaration(new IntType(), "v"),
+                new AssignStatement("v", new ValueExpression(new BoolValue(false))));
 
         try{
             typeCheckerFail.typeCheck(new MyDictionary<>());
