@@ -24,4 +24,7 @@ public interface IController {
 
     List<ProgramState> removeCompletedPrograms(List<ProgramState> programList);
 
+    ProgramState getProgramById(int id);
+
+    void oneStep();
 }
