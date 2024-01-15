@@ -16,4 +16,6 @@ public interface IMyList<T> {
     int size();
 
     void setContent(List<T> newContent);
+
+    List<T> getContent();
 }

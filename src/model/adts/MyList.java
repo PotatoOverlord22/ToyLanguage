@@ -50,4 +50,9 @@ public class MyList<T> implements IMyList<T> {
     public void setContent(List<T> newContent) {
         list = newContent;
     }
+
+    @Override
+    public List<T> getContent() {
+        return list;
+    }
 }

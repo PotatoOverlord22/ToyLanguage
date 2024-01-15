@@ -36,4 +36,8 @@ public class MyStack<T> implements IMyStack<T> {
     public boolean isEmpty() {
         return stack.isEmpty();
     }
+
+    public Stack<T> getStack() {
+        return stack;
+    }
 }
