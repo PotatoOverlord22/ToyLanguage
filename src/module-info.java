@@ -3,5 +3,6 @@ module ToyLanguage {
     requires javafx.controls;
     requires org.junit.jupiter.api;
 
-    opens view;
+    opens view.graphicalview;
+    opens view.textview;
 }
