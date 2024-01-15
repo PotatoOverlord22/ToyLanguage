@@ -12,6 +12,7 @@ import model.ProgramState;
 import model.adts.IMyHeap;
 import model.adts.IMyStack;
 import model.adts.MyHeap;
+import model.adts.SymbolTable;
 import model.statements.IStatement;
 import model.values.IValue;
 import view.graphicalview.customhandlers.SceneSwitcher;
@@ -25,6 +26,8 @@ public class ExecutionScene extends Scene{
     private IController programController;
     private TextField numberOfProgramStates;
     private TableView<Pair<Integer, IValue>> heapTableView;
+
+    private TableView<Pair<String, IValue>> symTableView;
     private ListView<Integer> idListView;
     private ListView<IValue> outListView;
     private ListView<IStatement> executionStackListView;
@@ -101,6 +104,29 @@ public class ExecutionScene extends Scene{
             updateAll();
         });
 
+        // Symbol table view
+        symTableView = new TableView<>();
+        SymbolTable symbolTable = programController.getAll().get(0).getSymbolTable();
+
+        // Populate the symbol table data into a list of Pair
+        List<Pair<String, IValue>> symbolTableList = new ArrayList<>();
+        for (var entry : symbolTable.getContent().entrySet())
+            symbolTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        // Set up columns
+        TableColumn<Pair<String, IValue>, String> varNameColumn = new TableColumn<>("Variable name");
+        varNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
+
+        TableColumn<Pair<String, IValue>, String> varValueColumn = new TableColumn<>("Variable value");
+        varValueColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().toString()));
+
+        // Add columns to the TableView
+        symTableView.getColumns().addAll(varNameColumn, varValueColumn);
+
+        // Set the data
+        symTableView.setItems(FXCollections.observableList(symbolTableList));
+
+
         // The exe stack of the currently selected thread
         executionStackListView = new ListView<>();
         Stack<IStatement> stack = programController.getAll().get(0).getExecutionStack().getStack();
@@ -122,6 +148,7 @@ public class ExecutionScene extends Scene{
         // Add elements to layout
         layout.getChildren().add(numberOfProgramStates);
         layout.getChildren().add(heapTableView);
+        layout.getChildren().add(symTableView);
         layout.getChildren().add(outListView);
         layout.getChildren().add(filesListView);
         layout.getChildren().add(idListView);
@@ -141,6 +168,7 @@ public class ExecutionScene extends Scene{
         updateIdView();
         updateNumberOfProgramStates();
         updateCurrentThreadExecutionStack();
+        updateSymbolTableView();
     }
     private void updateOutView(){
         List<IValue> outList = getCurrentlySelectedProgramState().getOutput().getContent();
@@ -162,6 +190,16 @@ public class ExecutionScene extends Scene{
             heapTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
         heapTableView.setItems(FXCollections.observableList(heapTableList));
         heapTableView.refresh();
+    }
+
+    private void updateSymbolTableView(){
+        SymbolTable symbolTable = getCurrentlySelectedProgramState().getSymbolTable();
+        // Populate the heap data into a list of Pair
+        List<Pair<String, IValue>> symbolTableList = new ArrayList<>();
+        for (var entry : symbolTable.getContent().entrySet())
+            symbolTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+        symTableView.setItems(FXCollections.observableList(symbolTableList));
+        symTableView.refresh();
     }
 
     private void updateIdView(){
