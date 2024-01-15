@@ -1,4 +1,4 @@
-package view.commands;
+package view.textview.commands;
 
 public class ExitCommand extends Command {
     public ExitCommand(String key, String description) {

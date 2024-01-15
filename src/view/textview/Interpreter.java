@@ -1,11 +1,10 @@
-package view;
+package view.textview;
 
 import controller.Controller;
 import controller.IController;
 import model.ProgramState;
 import model.adts.*;
 import model.exceptions.EvaluationException;
-import model.exceptions.ExecutionException;
 import model.expressions.*;
 import model.statements.*;
 import model.types.BoolType;
@@ -18,9 +17,8 @@ import model.values.IntValue;
 import model.values.StringValue;
 import repository.IRepository;
 import repository.Repository;
-import view.TextView;
-import view.commands.ExitCommand;
-import view.commands.RunProgramCommand;
+import view.textview.commands.ExitCommand;
+import view.textview.commands.RunProgramCommand;
 
 import java.io.BufferedReader;
 import java.util.Scanner;

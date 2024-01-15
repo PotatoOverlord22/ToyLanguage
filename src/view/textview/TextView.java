@@ -1,20 +1,10 @@
-package view;
+package view.textview;
 
-import controller.IController;
-import model.ProgramState;
 import model.adts.IMyDictionary;
-import model.adts.IMyList;
-import model.adts.IMyPair;
 import model.adts.MyDictionary;
-import model.exceptions.EvaluationException;
-import model.exceptions.ExecutionException;
-import model.exceptions.ReadWriteException;
-import model.statements.IStatement;
-import view.commands.Command;
+import view.textview.commands.Command;
 
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class TextView implements IView {
     private boolean stopView = false;
