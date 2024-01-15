@@ -112,4 +112,27 @@ public class Controller implements IController {
     public List<ProgramState> removeCompletedPrograms(List<ProgramState> programList) {
         return programList.stream().filter(program -> !program.isCompleted()).collect(Collectors.toList());
     }
+
+    @Override
+    public ProgramState getProgramById(int id) {
+        for (ProgramState prg : repository.getProgramList()){
+            if (prg.getId() == id)
+                return prg;
+        }
+        return null;
+    }
+
+    @Override
+    public void oneStep() {
+        // Call the factory of executors
+        executor = Executors.newFixedThreadPool(2);
+        // Remove completed programs
+        List<ProgramState> programs = removeCompletedPrograms(repository.getProgramList());
+        oneStepForAllPrograms(programs);
+        // Remove the completed programs after each step
+        programs = removeCompletedPrograms(repository.getProgramList());
+        executor.shutdownNow();
+        // Update repository state
+        repository.setProgramList(programs);
+    }
 }
