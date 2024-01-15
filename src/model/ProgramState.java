@@ -11,7 +11,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
 public class ProgramState {
-    private static int idCounter = 0; // all PrgStates will see this
+    private static int idCounter = 1; // all PrgStates will see this
     private final int id; // Personal id for each ProgramState
     private static final Object idLock = new Object(); // Lock used for synchronizing id assignment
     private IMyStack<IStatement> executionStack;
@@ -122,5 +122,9 @@ public class ProgramState {
         }
         return "ProgramState " + id + " :\n" + "Execution Stack: \n" + executionStack.toString() + "SymbolTable: \n" + symbolTable.toString()
                 + "Output: \n" + output.toString() + "FileTable: \n" + fileTableString + "Heap: \n" + heap.toString();
+    }
+
+    public int getId() {
+        return id;
     }
 }
