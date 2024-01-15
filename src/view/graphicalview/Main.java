@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import model.ProgramState;
 import model.adts.*;
@@ -187,7 +186,7 @@ public class Main extends Application implements SceneSwitcher {
                 )
 
         );
-        IStatement threadsExample = new CompoundStatement(new VarDeclaration(new BoolType(), "v"),
+        IStatement threadsExample = new CompoundStatement(new VarDeclaration(new IntType(), "v"),
                 new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "a"),
                         new CompoundStatement(new AssignStatement("v", new ValueExpression(new IntValue(10))),
                                 new CompoundStatement(new HeapAllocation("a", new ValueExpression(new IntValue(22))),
