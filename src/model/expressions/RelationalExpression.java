@@ -26,8 +26,18 @@ public class RelationalExpression implements IExpression {
         this.secondExpression = secondExpression;
     }
 
+    public RelationalExpression(String operator, IExpression expression){
+        this.operator = operator;
+        firstExpression = expression;
+    }
+
     @Override
     public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
+        if (Objects.equals(operator, "!")){
+            IValue value = firstExpression.evaluate(table, heap);
+            boolean boolValue = ((BoolValue) value).getValue();
+            return new BoolValue(!boolValue);
+        }
         // Evaluate both expressions
         IValue firstValue = firstExpression.evaluate(table, heap);
         IValue secondValue = secondExpression.evaluate(table, heap);
@@ -72,11 +82,15 @@ public class RelationalExpression implements IExpression {
 
     @Override
     public IExpression deepCopy() {
+        if (secondExpression == null)
+            return new RelationalExpression(operator, firstExpression.deepCopy());
         return new RelationalExpression(operator, firstExpression.deepCopy(), secondExpression.deepCopy());
     }
 
     @Override
     public String toString() {
+        if (secondExpression == null)
+            return "(" + operator + firstExpression + ")";
         return firstExpression + " " + operator + " " + secondExpression;
     }
 }

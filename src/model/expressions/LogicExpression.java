@@ -21,13 +21,25 @@ public class LogicExpression implements IExpression {
         secondExpression = second;
     }
 
+    public LogicExpression(char operator, IExpression expression){
+        this.operator = operator;
+        firstExpression = expression;
+    }
+
     @Override
     public IExpression deepCopy() {
+        if (secondExpression == null)
+            return new LogicExpression(operator, firstExpression.deepCopy());
         return new LogicExpression(operator, firstExpression.deepCopy(), secondExpression.deepCopy());
     }
 
     @Override
     public IValue evaluate(SymbolTable table, IMyHeap heap) throws EvaluationException {
+        if (operator == '!'){
+            IValue value = firstExpression.evaluate(table, heap);
+            boolean boolValue = ((BoolValue) value).getValue();
+            return new BoolValue(!boolValue);
+        }
         IValue firstIValue, secondIValue;
         firstIValue = firstExpression.evaluate(table, heap);
         secondIValue = secondExpression.evaluate(table, heap);
@@ -64,6 +76,8 @@ public class LogicExpression implements IExpression {
 
     @Override
     public String toString() {
+        if (secondExpression == null)
+            return operator + "(" + firstExpression + ")";
         return "(" + firstExpression.toString() + " " + operator + " " + secondExpression.toString() + ")";
     }
 }
