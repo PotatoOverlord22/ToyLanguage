@@ -223,8 +223,15 @@ public class Main extends Application implements SceneSwitcher {
                 new PrintStatement(new ArithmeticExpression('*', new VarExpression("v"), new ValueExpression(new IntValue(10))))
         ));
 
-        statements = FXCollections.observableArrayList(program1, program2, program3, program4, program5,
-                                            program6, threadsExample, threadsExample1, typeCheckerFail, repeatUntilExample);
+        IStatement forExample = new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "a"),
+                new CompoundStatement(new HeapAllocation("a", new ValueExpression(new IntValue(20))),
+                        new CompoundStatement(new For("v", new ValueExpression(new IntValue(0)), new ValueExpression(new IntValue(3)),
+                                new ArithmeticExpression('+', new VarExpression("v"), new ValueExpression(new IntValue(1))),
+                                new Fork(new CompoundStatement(new PrintStatement(new VarExpression("v")), new AssignStatement(
+                                        "v", new ArithmeticExpression('*', new VarExpression("v"), new HeapReadExpression(new VarExpression("a")))
+                                )))), new PrintStatement(new HeapReadExpression(new VarExpression("a"))))));
 
+        statements = FXCollections.observableArrayList(program1, program2, program3, program4, program5,
+                                            program6, threadsExample, threadsExample1, typeCheckerFail, repeatUntilExample, forExample);
     }
 }
