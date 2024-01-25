@@ -214,8 +214,17 @@ public class Main extends Application implements SceneSwitcher {
         IStatement typeCheckerFail = new CompoundStatement(new VarDeclaration(new IntType(), "v"),
                 new AssignStatement("v", new ValueExpression(new BoolValue(false))));
 
+        IStatement repeatUntilExample = new CompoundStatement(new VarDeclaration(new IntType(), "v"), new CompoundStatement(
+                new RepeatUntil(new CompoundStatement(new Fork(
+                        new CompoundStatement(new PrintStatement(new VarExpression("v")),
+                                new AssignStatement("v", new ArithmeticExpression('-', new VarExpression("v"), new ValueExpression(new IntValue(1)))))), new
+                        AssignStatement("v", new ArithmeticExpression('+', new VarExpression("v"), new ValueExpression(new IntValue(1))))),
+                        new RelationalExpression("==", new VarExpression("v"), new ValueExpression(new IntValue(3)))),
+                new PrintStatement(new ArithmeticExpression('*', new VarExpression("v"), new ValueExpression(new IntValue(10))))
+        ));
+
         statements = FXCollections.observableArrayList(program1, program2, program3, program4, program5,
-                                            program6, threadsExample, threadsExample1, typeCheckerFail);
+                                            program6, threadsExample, threadsExample1, typeCheckerFail, repeatUntilExample);
 
     }
 }
