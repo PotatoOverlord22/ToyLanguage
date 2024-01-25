@@ -55,6 +55,7 @@ public class ExecutionScene extends Scene{
 
         // Text field with the number of program states
         numberOfProgramStates = new TextField("Number of threads: " + programController.repositorySize());
+        numberOfProgramStates.setEditable(false);
 
         // Table View representing the heap
         heapTableView = new TableView<>();
@@ -136,7 +137,15 @@ public class ExecutionScene extends Scene{
         // Execute one step button
         oneStepButton = new Button("Execute one step for all threads");
         oneStepButton.setOnAction(actionEvent -> {
-            previousProgramState = programController.getProgramById(idListView.getSelectionModel().getSelectedItem());
+            try{
+            previousProgramState = programController.getProgramById((idListView.getSelectionModel().getSelectedItem() == null) ?
+                    programController.getAll().get(0).getId() : idListView.getSelectionModel().getSelectedItem());}
+            catch (IndexOutOfBoundsException exception){
+                Alert programFinishedAlert = new Alert(Alert.AlertType.INFORMATION);
+                programFinishedAlert.setTitle("Program finished");
+                programFinishedAlert.setContentText("The program has finished its execution already!");
+                programFinishedAlert.showAndWait();
+            }
             programController.oneStep();
             updateAll();
         });
@@ -158,8 +167,8 @@ public class ExecutionScene extends Scene{
         layout.getChildren().add(backButton);
     }
     private ProgramState getCurrentlySelectedProgramState(){
-        int id = idListView.getSelectionModel().getSelectedItem();
-        return (programController.getProgramById(id) == null) ? previousProgramState : programController.getProgramById(id);
+
+        return (idListView.getSelectionModel().getSelectedItem() == null) ? previousProgramState : programController.getProgramById(idListView.getSelectionModel().getSelectedItem());
     }
     private void updateAll(){
         updateOutView();
