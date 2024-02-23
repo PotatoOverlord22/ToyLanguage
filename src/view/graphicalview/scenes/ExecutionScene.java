@@ -9,10 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.util.Pair;
 import model.ProgramState;
-import model.adts.IMyHeap;
-import model.adts.IMyStack;
-import model.adts.MyHeap;
-import model.adts.SymbolTable;
+import model.adts.*;
 import model.statements.IStatement;
 import model.values.IValue;
 import view.graphicalview.customhandlers.SceneSwitcher;
@@ -28,6 +25,8 @@ public class ExecutionScene extends Scene{
     private TableView<Pair<Integer, IValue>> heapTableView;
 
     private TableView<Pair<String, IValue>> symTableView;
+
+    private TableView<Pair<Integer, Integer>> lockTableView;
     private ListView<Integer> idListView;
     private ListView<IValue> outListView;
     private ListView<IStatement> executionStackListView;
@@ -128,6 +127,31 @@ public class ExecutionScene extends Scene{
         symTableView.setItems(FXCollections.observableList(symbolTableList));
 
 
+
+        // Table View representing the lock table
+        lockTableView = new TableView<>();
+        // Get the lock table from one of the program states (doesn't matter which)
+        ILockTable lockTable = programController.getAll().get(0).getLockTable();
+
+        // Populate the lock table data into a list of Pair
+        List<Pair<Integer, Integer>> lockTableList = new ArrayList<>();
+        for (var entry : lockTable.getContent().entrySet())
+            lockTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        // Set up columns
+        TableColumn<Pair<Integer, Integer>, Integer> lockLocationColumn = new TableColumn<>("Lock Location");
+        lockLocationColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getKey()).asObject());
+
+        TableColumn<Pair<Integer, Integer>, Integer> ownerColumn = new TableColumn<>("Owner");
+        ownerColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getValue()).asObject());
+
+        // Add columns to the TableView
+        lockTableView.getColumns().addAll(lockLocationColumn, ownerColumn);
+
+        // Set the data
+        lockTableView.setItems(FXCollections.observableList(lockTableList));
+
+
         // The exe stack of the currently selected thread
         executionStackListView = new ListView<>();
         Stack<IStatement> stack = programController.getAll().get(0).getExecutionStack().getStack();
@@ -157,6 +181,7 @@ public class ExecutionScene extends Scene{
         // Add elements to layout
         layout.getChildren().add(numberOfProgramStates);
         layout.getChildren().add(heapTableView);
+        layout.getChildren().add(lockTableView);
         layout.getChildren().add(symTableView);
         layout.getChildren().add(outListView);
         layout.getChildren().add(filesListView);
@@ -178,6 +203,7 @@ public class ExecutionScene extends Scene{
         updateNumberOfProgramStates();
         updateCurrentThreadExecutionStack();
         updateSymbolTableView();
+        updateLockTable();
     }
     private void updateOutView(){
         List<IValue> outList = getCurrentlySelectedProgramState().getOutput().getContent();
@@ -199,6 +225,16 @@ public class ExecutionScene extends Scene{
             heapTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
         heapTableView.setItems(FXCollections.observableList(heapTableList));
         heapTableView.refresh();
+    }
+
+    private void updateLockTable(){
+        ILockTable lockTable = getCurrentlySelectedProgramState().getLockTable();
+        // Populate the lock data into a list of Pair
+        List<Pair<Integer, Integer>> lockTableList = new ArrayList<>();
+        for (var entry : lockTable.getContent().entrySet())
+            lockTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+        lockTableView.setItems(FXCollections.observableList(lockTableList));
+        lockTableView.refresh();
     }
 
     private void updateSymbolTableView(){
