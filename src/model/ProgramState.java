@@ -20,20 +20,21 @@ public class ProgramState {
 
     private IMyDictionary<String, BufferedReader> fileTable;
 
+    private ILockTable lockTable;
+
     //
     private IMyHeap heap;
 
-    private
-
-    IStatement originalState;
+    private IStatement originalState;
 
     public ProgramState(IMyStack<IStatement> executionStack, SymbolTable symbolTable, IMyList<IValue> out,
-                        IMyDictionary<String, BufferedReader> fileTable, IStatement startingStatement, IMyHeap heap) {
+                        IMyDictionary<String, BufferedReader> fileTable, IStatement startingStatement, IMyHeap heap, ILockTable lockTable) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.output = out;
         this.fileTable = fileTable;
         this.heap = heap;
+        this.lockTable = lockTable;
         originalState = startingStatement.deepCopy();
         // This is the first statement on the stack
         executionStack.push(startingStatement);
@@ -52,6 +53,7 @@ public class ProgramState {
         output = new MyList<>();
         fileTable = new MyDictionary<>();
         heap = new MyHeap();
+        lockTable = new LockTable();
 
         IStatement startingStatement = originalState.deepCopy();
         executionStack.push(startingStatement);
@@ -113,6 +115,14 @@ public class ProgramState {
         return executionStack.isEmpty();
     }
 
+    public ILockTable getLockTable() {
+        return lockTable;
+    }
+
+    public void setLockTable(ILockTable lockTable) {
+        this.lockTable = lockTable;
+    }
+
     @Override
     public String toString() {
         String fileTableString = "";
@@ -121,7 +131,7 @@ public class ProgramState {
             fileTableString += reader.toString() + ", ";
         }
         return "ProgramState " + id + " :\n" + "Execution Stack: \n" + executionStack.toString() + "SymbolTable: \n" + symbolTable.toString()
-                + "Output: \n" + output.toString() + "FileTable: \n" + fileTableString + "Heap: \n" + heap.toString();
+                + "Output: \n" + output.toString() + "FileTable: \n" + fileTableString + "Heap: \n" + heap.toString() + "Lock table: \n" + lockTable.toString();
     }
 
     public int getId() {

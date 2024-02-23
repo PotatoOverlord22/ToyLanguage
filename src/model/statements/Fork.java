@@ -17,7 +17,7 @@ public class Fork implements IStatement {
 
     @Override
     public ProgramState execute(ProgramState state) throws ExecutionException, EvaluationException, ReadWriteException {
-        return new ProgramState(new MyStack<>(), state.getSymbolTable().deepCopy(), state.getOutput(), state.getFileTable(), statement.deepCopy(), state.getHeap());
+        return new ProgramState(new MyStack<>(), state.getSymbolTable().deepCopy(), state.getOutput(), state.getFileTable(), statement.deepCopy(), state.getHeap(), state.getLockTable());
     }
 
     @Override
