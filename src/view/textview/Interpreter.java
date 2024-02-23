@@ -30,8 +30,9 @@ public class Interpreter {
         SymbolTable symbolTable = new SymbolTable();
         IMyDictionary<String, BufferedReader> fileTable = new MyDictionary<>();
         IMyHeap heap = new MyHeap();
+        ILockTable lockTable = new LockTable();
 
-        return new ProgramState(executionStack, symbolTable, output, fileTable, startingStatement, heap);
+        return new ProgramState(executionStack, symbolTable, output, fileTable, startingStatement, heap, lockTable);
     }
 
     public static void main(String[] args) {

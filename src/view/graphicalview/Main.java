@@ -93,8 +93,9 @@ public class Main extends Application implements SceneSwitcher {
         SymbolTable symbolTable = new SymbolTable();
         IMyDictionary<String, BufferedReader> fileTable = new MyDictionary<>();
         IMyHeap heap = new MyHeap();
+        ILockTable lockTable = new LockTable();
 
-        return new ProgramState(executionStack, symbolTable, output, fileTable, startingStatement, heap);
+        return new ProgramState(executionStack, symbolTable, output, fileTable, startingStatement, heap, lockTable);
     }
 
     private static void populateStatementsList(){
@@ -231,7 +232,41 @@ public class Main extends Application implements SceneSwitcher {
                                         "v", new ArithmeticExpression('*', new VarExpression("v"), new HeapReadExpression(new VarExpression("a")))
                                 )))), new PrintStatement(new HeapReadExpression(new VarExpression("a"))))));
 
+        IStatement lockExample = new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "v1"),
+                new CompoundStatement(new VarDeclaration(new ReferenceType(new IntType()), "v2"),
+                        new CompoundStatement(new VarDeclaration(new IntType(), "x"),
+                                new CompoundStatement(new VarDeclaration(new IntType(), "q"),
+                                        new CompoundStatement(new HeapAllocation("v1", new ValueExpression(new IntValue(20))),
+                                                new CompoundStatement(new HeapAllocation("v2", new ValueExpression(new IntValue(30))),
+                                                        new CompoundStatement(new CreateLock("x"),
+                                                                new CompoundStatement(
+                                                                        new Fork(
+                                                                                new CompoundStatement(
+                                                                                        new Fork(
+                                                                                                new CompoundStatement(new Lock("x"), new CompoundStatement(new HeapWrite("v1", new ArithmeticExpression('-', new HeapReadExpression(new VarExpression("v1")), new ValueExpression(new IntValue(1)))), new Unlock("x")))
+                                                                                        ), new CompoundStatement(new Lock("x"), new CompoundStatement(new HeapWrite("v1", new ArithmeticExpression('*', new HeapReadExpression(new VarExpression("v1")), new ValueExpression(new IntValue(10)))), new Unlock("x"))))
+                                                                        ),
+                                                                        new CompoundStatement(new CreateLock("q"),
+                                                                                new CompoundStatement(
+                                                                                        new Fork(
+                                                                                                new CompoundStatement(
+                                                                                                        new Fork(
+                                                                                                                new CompoundStatement(new Lock("q"), new CompoundStatement(new HeapWrite("v2", new ArithmeticExpression('*', new HeapReadExpression(new VarExpression("v2")), new ValueExpression(new IntValue(5)))), new Unlock("q")))),
+                                                                                                        new CompoundStatement(new Lock("q"), new CompoundStatement(new HeapWrite("v2", new ArithmeticExpression('*', new HeapReadExpression(new VarExpression("v2")), new ValueExpression(new IntValue(10)))), new Unlock("q")))
+                                                                                                )),
+                                                                                        new CompoundStatement(new NopStatement(),
+                                                                                                new CompoundStatement(new NopStatement(),
+                                                                                                        new CompoundStatement(new NopStatement(),
+                                                                                                                new CompoundStatement(new NopStatement(),
+                                                                                                                        new CompoundStatement(new Lock("x"),
+                                                                                                                                new CompoundStatement(new PrintStatement(new HeapReadExpression(new VarExpression("v1"))),
+                                                                                                                                        new CompoundStatement(new Unlock("x"),
+                                                                                                                                                new CompoundStatement(new Lock("q"),
+                                                                                                                                                        new CompoundStatement(new PrintStatement(new HeapReadExpression(new VarExpression("v2"))),
+                                                                                                                                                                new Unlock("q"))))))))))))))))
+                                ))));
+
         statements = FXCollections.observableArrayList(program1, program2, program3, program4, program5,
-                                            program6, threadsExample, threadsExample1, typeCheckerFail, repeatUntilExample, forExample);
+                                            program6, threadsExample, threadsExample1, typeCheckerFail, repeatUntilExample, forExample, lockExample);
     }
 }
